@@ -1,7 +1,7 @@
 body {
   background-color: #fff;
   color: #333;
-  margin: 33px;
+  margin: 0px;
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;
   line-height: 18px;
@@ -82,3 +82,16 @@ div {
 label {
   display: block;
 }
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+}
+
+.header {
+  position: absolute;
+  top: 0;
+}
+
+
