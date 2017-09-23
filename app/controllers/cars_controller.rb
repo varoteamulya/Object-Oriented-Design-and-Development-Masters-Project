@@ -1,12 +1,15 @@
 class CarsController < ApplicationController
-  before_action :set_car, only: [:show, :edit, :update, :destroy]
+  before_action :check_authorization, only: [:show, :edit, :update, :destroy]
 
   # GET /cars
   # GET /cars.json
 
 
   def index
-    if params[:search]
+    set_user
+    puts params[:search]
+    if params[:search] &&
+        !params[:search].empty?
       @cars = Car.search(params[:search]).order("created_at DESC")
     else
       @cars = Car.all
@@ -76,9 +79,21 @@ class CarsController < ApplicationController
   end
 
   private
+
+    def check_authorization
+       puts 'checking authorization'
+       set_user
+       set_car
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_car
       @car = Car.find(params[:id])
+    end
+
+    def set_user
+      puts 'checking user'
+      @user = User.find(session[:current_user_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

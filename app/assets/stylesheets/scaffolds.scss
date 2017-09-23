@@ -140,6 +140,7 @@ label {
 .form-div form .field input, .show-div p .span-value {
   height: 20px;
   width: 200px;
+  text-align: end;
 }
 
 .form-div form .actions input, .show-div .span-button {
@@ -186,6 +187,35 @@ label {
   padding: 15px;
   cursor: pointer;
 }
+
+.message-div {
+  padding : 10px;
+  margin : 10px;
+  background : greenyellow;
+}
+
+#search-form {
+  margin: 0px auto;
+  width: fit-content;
+}
+
+#search-form input[type="text"] {
+   width: 400px;
+   height: 20px;
+   padding: 10px;
+}
+
+#search-form input[type="submit"] {
+  width: 100px;
+  height: 40px !important;
+  margin: 2px;
+  border: none;
+  background: brown;
+  color: white;
+  font-size: 18px;
+}
+
+
 
 
 

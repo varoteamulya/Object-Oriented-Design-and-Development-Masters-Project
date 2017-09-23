@@ -1,22 +1,28 @@
 <div>
+
+  <%= form_tag(cars_path, :method => "get", id: "search-form") do %>
+      <%= text_field_tag :search, params[:search], placeholder: "Search Cars" %>
+      <%= submit_tag "Search" %>
+  <% end %>
+
   <% if @user.respond_to? :reservedCar %>
     <h1>Reserved Car</h1>
     <%= render 'templates/car_table.html.erb', cars: @user.reservedCar, user: user%>
   <% else %>
-      <div>You have not reserved any car yet</div>
+      <div class="message-div">You have not reserved any car yet</div>
   <% end %>
 
   <% if @user.respond_to? :checkedOutCar %>
       <h1>Checkedout Car</h1>
       <%= render 'templates/car_table.html.erb', cars: @user.checkedOutCar, user: user%>
   <% else %>
-      <div>You currently have no checked out cars</div>
+      <div class="message-div">You currently have no checked out cars</div>
   <% end %>
 
   <% if @user.respond_to? :checkedOutHistory %>
     <h1>Checkedout history</h1>
     <%= render 'templates/car_table.html.erb', cars: @user.checkedOutHistory, user: user%>
   <% else %>
-    <div>You have no checked out history</div>
+    <div class="message-div">You have no checked out history</div>
   <% end %>
 </div>
