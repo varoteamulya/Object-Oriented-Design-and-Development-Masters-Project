@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
-  resources :cars
+  resources :cars do
+    collection do
+      get 'book'
+    end
+  end
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
-  get 'book_car', to: 'cars#book'
+
+  get 'book_car', to: 'car#book'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'home#index'

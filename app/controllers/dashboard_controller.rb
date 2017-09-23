@@ -4,10 +4,12 @@ class DashboardController < ApplicationController
 
   # /dashboard
   def index
-    puts 'you are inside index'
+    @cars = Car.all
+  end
 
-    puts @user
-
+  def book
+    puts "in book"
+    puts params
   end
 
   private

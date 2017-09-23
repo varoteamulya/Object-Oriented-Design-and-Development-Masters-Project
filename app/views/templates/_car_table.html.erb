@@ -1,0 +1,38 @@
+<div class="table-div">
+  <table>
+    <thead>
+    <tr>
+      <th>License Plate</th>
+      <th>Manufacturer</th>
+      <th>Model</th>
+      <th>Hourly Rental Rate</th>
+      <th>Style</th>
+      <th>Location</th>
+      <th>Availability</th>
+      <th>Checkout</th>
+      <th colspan="3"></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% cars.each do |car| %>
+        <tr>
+          <td><%= link_to car.License, car %></td>
+          <td><%= car.Manufacturer %></td>
+          <td><%= car.Model %></td>
+          <td><%= car.Hourly %></td>
+          <td><%= car.Style %></td>
+          <td><%= car.Location %></td>
+          <td><%= car.Availability %></td>
+          <td><%= car.Checkout %></td>
+          <td><%= link_to 'Book', {:controller => "cars", :action => "book", :car => car.id } %></td>
+
+          <% unless user.u_type == 3 %>
+            <td><%= link_to 'Edit', edit_car_path(car) %></td>
+            <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% end %>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

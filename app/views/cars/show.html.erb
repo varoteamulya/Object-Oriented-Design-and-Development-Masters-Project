@@ -1,46 +1,11 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>License:</strong>
-  <%= @car.License %>
-</p>
-
-
-
-<p>
-  <strong>Manufacturer:</strong>
-  <%= @car.Manufacturer %>
-</p>
-
-<p>
-  <strong>Model:</strong>
-  <%= @car.Model %>
-</p>
-
-<p>
-  <strong>Hourly:</strong>
-  <%= @car.Hourly %>
-</p>
-
-<p>
-  <strong>Style:</strong>
-  <%= @car.Style %>
-</p>
-
-<p>
-  <strong>Location:</strong>
-  <%= @car.Location %>
-</p>
-
-<p>
-  <strong>Availability:</strong>
-  <%= @car.Availability %>
-</p>
-
-<p>
-  <strong>Checkout:</strong>
-  <%= @car.Checkout %>
-</p>
+<div class="show-div">
+  <div class="div-header">
+    <h1>Car</h1>
+  </div>
+  <%= render 'templates/car.html.erb', car: @car%>
+</div>
 
 <%= link_to 'Edit', edit_car_path(@car) %> |
 <%= link_to 'Back', cars_path %>

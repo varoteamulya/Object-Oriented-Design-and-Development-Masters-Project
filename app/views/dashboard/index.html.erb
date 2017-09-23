@@ -4,4 +4,15 @@
   </h1>
 
   <span><%= link_to 'Logout' %></span>
+
+  <div class="div-search">
+
+  </div>
+
+  <div>
+    <h1>Cars</h1>
+    <%= render 'templates/car_table.html.erb', cars: @cars, user: @user%>
+  </div>
+
+
 </div>

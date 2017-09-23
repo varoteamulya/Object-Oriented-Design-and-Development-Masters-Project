@@ -14,25 +14,20 @@ ActiveRecord::Schema.define(version: 20170923040106) do
 
   create_table "cars", force: :cascade do |t|
     t.string "License"
-    t.string "Plate"
     t.string "Manufacturer"
     t.string "Model"
     t.string "Hourly"
-    t.string "Rental"
-    t.float "Rate"
     t.string "Style"
     t.string "Location"
     t.string "Availability"
     t.string "Checkout"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
     t.text "email_id"
     t.text "name"
     t.text "password"
-    t.integer "type"
+    t.integer "u_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

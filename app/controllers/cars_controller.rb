@@ -6,12 +6,11 @@ class CarsController < ApplicationController
 
 
   def index
-    @cars = Car.all
     if params[:search]
       @cars = Car.search(params[:search]).order("created_at DESC")
-
+    else
+      @cars = Car.all
     end
-
   end
 
 
@@ -33,7 +32,7 @@ class CarsController < ApplicationController
   # GET /cars/1
   # GET /cars/1.json
   def book
-     puts @car
+     @car = Car.find(params[:car])
   end
 
   # POST /cars
