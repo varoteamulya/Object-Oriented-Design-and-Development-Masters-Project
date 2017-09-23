@@ -4,7 +4,6 @@ body {
   margin: 0px;
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;
-  line-height: 18px;
 }
 
 p, ol, ul, td {
@@ -85,13 +84,105 @@ label {
 
 .footer {
   position: absolute;
+  width: 100%;
   bottom: 0;
-  text-align: center;
+  padding: 10px;
+  background: #3e7aab !important;
+  color: white;
+  font-size : 12px;
 }
 
 .header {
-  position: absolute;
+  position: relative;
   top: 0;
+  padding: 10px;
+  background: #3e7aab !important;
+  color: white;
+  font-size : 24px;
+  box-shadow: 1px 1px 1px 1px grey;
 }
+
+.form-div, .table-div, .show-div {
+  width: fit-content;
+  margin: 0px auto;
+  padding: 10px;
+  position: relative;
+}
+
+.form-div form {
+  margin: 0 auto;
+  width: fit-content;
+  padding: 45px;
+  padding-bottom: 60px;
+  padding-top: 1px;
+}
+
+.form-div h1, .show-div h1 {
+  border-bottom: 1px solid gray;
+  padding-bottom: 25px;
+}
+
+.form-div form .field, .actions, .show-div p {
+  margin-top: 20px;
+  display: flex;
+  position: relative;
+}
+
+.form-div form .field label, .show-div p .span-label {
+  display: block;
+  width: 100px;
+}
+
+.form-div form .field input, .show-div p .span-value {
+  height: 20px;
+  width: 200px;
+}
+
+.form-div form .actions input, .show-div .span-button {
+  background: brown;
+  border: 0;
+  color: white;
+  border-radius: 5px;
+  padding: 8px;
+  position: absolute;
+  right: 0;
+}
+
+.show-div .span-button a {
+  text-decoration: none;
+  color : white;
+}
+
+.table-div table td {
+  width: 100px;
+  text-align: center;
+  padding: 5px;
+}
+
+.table-div table th {
+  adding-bottom: 5px;
+  background: burlywood;
+  text-align: center;
+  vertical-align: middle;
+  padding: 10px;
+}
+
+.div-header {
+  position: relative;
+}
+
+.div-header h1 {
+  width: fit-content;
+}
+
+.div-header a {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  padding: 15px;
+  cursor: pointer;
+}
+
+
 
 

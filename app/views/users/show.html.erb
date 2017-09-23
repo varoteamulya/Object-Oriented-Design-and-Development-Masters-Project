@@ -1,24 +1,24 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Email:</strong>
-  <%= @user.email_id %>
-</p>
+<div class="show-div">
+  <div class="div-header">
+    <h1>Show</h1>
+    <%= link_to 'Back', users_path %>
+  </div>
+  <p>
+    <span class="span-label"><strong>Email:</strong></span>
+    <span class="span-value"><%= @user.email_id %></span>
+  </p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
+  <p>
+    <span class="span-label"><strong>Name:</strong></span>
+    <span class="span-value"><%= @user.name %></span>
+  </p>
 
-<p>
-  <strong>Password:</strong>
-  <%= @user.password %>
-</p>
+  <p>
+    <span class="span-label"><strong>Type:</strong></span>
+    <span class="span-value"><%= @user.u_type %></span>
+  </p>
 
-<p>
-  <strong>Type:</strong>
-  <%= @user.u_type %>
-</p>
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+  <span class="span-button"><%= link_to 'Edit', edit_user_path(@user) %></span>
+</div>

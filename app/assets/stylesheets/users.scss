@@ -2,36 +2,4 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-form {
-  margin: 0 auto;
-  width: fit-content;
-  padding: 30px;
-  border: 1px solid cadetblue;
-  border-radius: 10px;
-}
 
-.field, .actions {
-  margin-bottom: 10px;
-  display: flex;
-  position: relative;
-}
-
-.field label {
-  display: block;
-  width: 100px;
-}
-
-.field input {
-  height: 20px;
-  width: 200px;
-}
-
-.actions input {
-  background: brown;
-  border: 0;
-  color: white;
-  border-radius: 5px;
-  padding: 8px;
-  position: absolute;
-  right: 0;
-}
