@@ -1,0 +1,59 @@
+<%= form_with(model: car, local: true) do |form| %>
+  <% if car.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(car.errors.count, "error") %> prohibited this car from being saved:</h2>
+
+      <ul>
+      <% car.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :License %>
+    <%= form.text_field :License, id: :car_License %>
+  </div>
+
+
+  <div class="field">
+    <%= form.label :Manufacturer %>
+    <%= form.text_field :Manufacturer, id: :car_Manufacturer %>
+  </div>
+
+  <div class="field">
+    <%= form.label :Model %>
+    <%= form.text_field :Model, id: :car_Model %>
+  </div>
+
+  <div class="field">
+    <%= form.label :Hourly %>
+    <%= form.text_field :Hourly, id: :car_Hourly %>
+  </div>
+
+
+  <div class="field">
+    <%= form.label :Style %>
+    <%= form.text_field :Style, id: :car_Style %>
+  </div>
+
+  <div class="field">
+    <%= form.label :Location %>
+    <%= form.text_field :Location, id: :car_Location %>
+  </div>
+
+  <div class="field">
+    <%= form.label :Availability %>
+    <%= form.text_field :Availability, id: :car_Availability %>
+  </div>
+
+  <div class="field">
+    <%= form.label :Checkout %>
+    <%= form.text_field :Checkout, id: :car_Checkout %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

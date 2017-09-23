@@ -10,14 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170922004517) do
+ActiveRecord::Schema.define(version: 20170923040106) do
 
-  create_table "User", primary_key: "email_id", id: :text, force: :cascade do |t|
-    t.text "name", null: false
-    t.text "password", null: false
-    t.integer "type", default: 0, null: false
-    t.index ["email_id"], name: "User_email_id_uindex", unique: true
-    t.index ["email_id"], name: "sqlite_autoindex_User_1", unique: true
+  create_table "cars", force: :cascade do |t|
+    t.string "License"
+    t.string "Plate"
+    t.string "Manufacturer"
+    t.string "Model"
+    t.string "Hourly"
+    t.string "Rental"
+    t.float "Rate"
+    t.string "Style"
+    t.string "Location"
+    t.string "Availability"
+    t.string "Checkout"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
