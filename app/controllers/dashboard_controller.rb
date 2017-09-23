@@ -5,6 +5,8 @@ class DashboardController < ApplicationController
   # /dashboard
   def index
     @cars = Car.all
+
+    puts @user
   end
 
   def book

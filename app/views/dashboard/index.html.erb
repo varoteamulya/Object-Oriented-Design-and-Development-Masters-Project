@@ -9,10 +9,7 @@
 
   </div>
 
-  <div>
-    <h1>Cars</h1>
-    <%= render 'templates/car_table.html.erb', cars: @cars, user: @user%>
-  </div>
-
-
+  <% if @user.u_type == 3 %>
+    <%= render 'customer.html.erb', cars: @cars, user: @user%>
+  <% end %>
 </div>
