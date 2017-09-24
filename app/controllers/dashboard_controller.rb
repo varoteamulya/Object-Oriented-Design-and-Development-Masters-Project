@@ -14,8 +14,12 @@ class DashboardController < ApplicationController
     redirect_to home_path
   end
 
-  def suggestion
-    @suggestion = suggestion.new(suggestion_params)
+  def suggest_car
+
+  end
+
+  def new_suggest_car
+    puts filter_suggested_car_fields
   end
 
   private
@@ -25,5 +29,9 @@ class DashboardController < ApplicationController
       unless @user
         redirect_to home_path
       end
+    end
+
+    def filter_suggested_car_fields
+      params.permit(:Manufacturer, :Model)
     end
 end

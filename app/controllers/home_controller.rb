@@ -5,19 +5,36 @@ class HomeController < ApplicationController
 
   # GET /login
   def login
-
+    @login = Login.new
   end
 
   # POST /login
   def user_login
-    # get user based on email id passed
-    @user = User.find(params[:email_id])
+    @login = Login.new(login_params)
 
-    # set user id into session
-    session[:current_user] = @user
+    puts @login
 
-    # redirect to dashboard
-    redirect_to dashboard_path
+    #validate user
+    if @login.valid?
+      puts 'valid'
+      email_id = @login.email_id
+      password = @login.password
+
+      puts email_id, password
+
+      # get user based on email id passed
+      @user = User.find(email_id)
+
+      # set user id into session
+      session[:current_user] = @user
+
+      # redirect to dashboard
+      redirect_to dashboard_path
+
+    else
+      puts 'invalid'
+      redirect_to login_path
+    end
   end
 
   # GET /sign_up
@@ -46,8 +63,8 @@ class HomeController < ApplicationController
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
-  def user_params
-    params.permit(:email_id, :name, :password)
+  def login_params
+    params.require(:login).permit(:email_id, :name, :password)
   end
 
 end
