@@ -22,4 +22,6 @@ Rails.application.routes.draw do
 
   post 'sign_up', to:'home#user_sign_up'
   post 'login', to:'home#user_login'
+
+  get 'logout' => 'dashboard#logout'
 end

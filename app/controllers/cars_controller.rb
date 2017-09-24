@@ -101,8 +101,10 @@ class CarsController < ApplicationController
     end
 
     def set_user
-      puts 'checking user'
       @user = session[:current_user]
+      unless @user
+        redirect_to home_path
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -7,6 +7,13 @@ class DashboardController < ApplicationController
 
   end
 
+  def logout
+    puts 'here in logout'
+    session.clear
+
+    redirect_to home_path
+  end
+
   def suggestion
     @suggestion = suggestion.new(suggestion_params)
   end
@@ -15,6 +22,8 @@ class DashboardController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = session[:current_user]
+      unless @user
+        redirect_to home_path
+      end
     end
-
 end
