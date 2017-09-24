@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     collection do
       get 'book'
       get 'checkout'
+      get 'return'
     end
   end
   resources :users
@@ -10,6 +11,7 @@ Rails.application.routes.draw do
 
   get 'book_car', to: 'car#book'
   get 'checkout_car', to: 'car#checkout'
+  get 'return_car', to: 'car#return'
   get 'suggestion_dashboard', to: 'dashboard#suggestion'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

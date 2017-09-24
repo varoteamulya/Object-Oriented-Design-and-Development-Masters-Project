@@ -46,6 +46,11 @@ class CarsController < ApplicationController
     @car.save
   end
 
+  def return
+    @car = Car.find(params[:car])
+    @car.update_column(:Availability, "Available")
+    @car.save
+  end
 
   # POST /cars
   # POST /cars.json

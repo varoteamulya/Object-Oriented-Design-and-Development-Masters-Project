@@ -10,7 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170923040106) do
+ActiveRecord::Schema.define(version: 20170924210452) do
+
+  create_table "car_status", id: false, force: :cascade do |t|
+    t.string "status"
+    t.integer "value"
+  end
 
   create_table "cars", force: :cascade do |t|
     t.string "License"
@@ -21,6 +26,17 @@ ActiveRecord::Schema.define(version: 20170923040106) do
     t.string "Location"
     t.string "Availability"
     t.string "Checkout"
+  end
+
+  create_table "suggestion", id: false, force: :cascade do |t|
+    t.string "manufacturer"
+    t.string "model"
+  end
+
+
+  create_table "user_type", id: false, force: :cascade do |t|
+    t.string "name"
+    t.integer "type"
   end
 
   create_table "users", force: :cascade do |t|
