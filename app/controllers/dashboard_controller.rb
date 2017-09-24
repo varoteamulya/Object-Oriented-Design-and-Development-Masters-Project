@@ -20,6 +20,8 @@ class DashboardController < ApplicationController
 
   def new_suggest_car
     puts filter_suggested_car_fields
+    @suggestion = Suggestion.new(filter_suggested_car_fields)
+    @suggestion.save
   end
 
   private
@@ -32,6 +34,6 @@ class DashboardController < ApplicationController
     end
 
     def filter_suggested_car_fields
-      params.permit(:Manufacturer, :Model)
+      params.permit(:manufacturer, :model)
     end
 end
