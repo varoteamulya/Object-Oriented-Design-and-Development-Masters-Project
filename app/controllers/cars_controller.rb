@@ -10,7 +10,7 @@ class CarsController < ApplicationController
     puts params[:search]
     if params[:search] &&
         !params[:search].empty?
-      @cars = Car.search(params[:search]).order("created_at DESC")
+      @cars = Car.search(params[:search])#.order("created_at DESC")
     else
       @cars = Car.all
     end
