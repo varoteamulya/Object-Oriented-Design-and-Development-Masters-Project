@@ -25,7 +25,21 @@
           <td><%= car.Location %></td>
           <td><%= car.Availability %></td>
           <td><%= car.Checkout %></td>
-          <td><%= link_to 'Book', {:controller => "cars", :action => "book", :car => car.id } %></td>
+
+          <% if car.Availability == 'Booked' %>
+              <td><%= 'Car is booked' %></td>
+              <td><%= link_to 'Checkout', {:controller => "cars", :action => "checkout", :car => car.id } %></td>
+
+              <% elsif car.Availability == 'Checked_Out' %>
+              <td><%= 'Car is Checked Out' %></td>
+
+              <% else %>
+
+              <td><%= link_to 'Book', {:controller => "cars", :action => "book", :car => car.id } %></td>
+              <td><%= link_to 'Checkout', {:controller => "cars", :action => "checkout", :car => car.id } %></td>
+
+          <% end %>
+
 
           <% unless user.u_type == 3 %>
             <td><%= link_to 'Edit', edit_car_path(car) %></td>

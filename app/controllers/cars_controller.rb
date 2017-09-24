@@ -35,8 +35,17 @@ class CarsController < ApplicationController
   # GET /cars/1
   # GET /cars/1.json
   def book
-     @car = Car.find(params[:car])
+    @car = Car.find(params[:car])
+    @car.update_column(:Availability, "Booked")
+    @car.save
   end
+
+  def checkout
+    @car = Car.find(params[:car])
+    @car.update_column(:Availability, "Checked_Out")
+    @car.save
+  end
+
 
   # POST /cars
   # POST /cars.json

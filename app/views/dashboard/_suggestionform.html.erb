@@ -1,0 +1,18 @@
+<%= form_with(local: true) do |form| %>
+
+    <div class="field">
+      <%= form.label :Manufacturer %>
+      <%= form.text_field :Manufacturer, id: :suggestion_Manufacturer %>
+    </div>
+
+
+    <div class="field">
+      <%= form.label :Model %>
+      <%= form.text_field :Model, id: :car_Model %>
+    </div>
+
+
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+<% end %>
