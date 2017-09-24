@@ -1,0 +1,22 @@
+<div>
+  <div>
+    <h1>Welcome Admin</h1>
+    <%= link_to 'Logout', users_path %>
+  </div>
+
+  <div class="div-header">
+    <h1>Create a customer</h1>
+    <%= link_to 'Back', home_path %>
+  </div>
+
+  <%= render 'templates/sign_up_form.html.erb', user: @user %>
+
+  <div class="div-header">
+    <h1>View all Customers</h1>
+    <%= link_to 'Back', home_path %>
+  </div>
+
+
+
+
+</div>
