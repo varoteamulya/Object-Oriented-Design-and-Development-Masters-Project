@@ -10,7 +10,9 @@ Rails.application.routes.draw do
 
   get 'book_car', to: 'car#book'
   get 'checkout_car', to: 'car#checkout'
-  get 'suggestion_dashboard', to: 'dashboard#suggestion'
+  get 'suggest_car', to: 'dashboard#suggest_car'
+
+  post 'suggest_car', to: 'dashboard#new_suggest_car'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'home#index'
