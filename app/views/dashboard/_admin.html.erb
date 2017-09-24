@@ -1,19 +1,11 @@
 <div>
 
   <div class="div-link">
-    <%= link_to 'Create an Admin', new_user_path %>
+    <%= link_to 'Create an Admin/Customer', new_user_path %>
   </div>
 
   <div class="div-link">
-    <%= link_to 'View all Admins', users_path %>
-  </div>
-
-  <div class="div-link">
-    <%= link_to 'Create a customer', new_user_path %>
-  </div>
-
-  <div class="div-link">
-    <%= link_to 'View all Customers', users_path %>
+    <%= link_to 'View all Admins/Customer', users_path %>
   </div>
 
   <div class="div-link">
@@ -23,5 +15,10 @@
   <div class="div-link">
     <td><%= link_to 'View all Cars', cars_path %></td>
   </div>
+
+  <div class="div-link">
+    <td><%= link_to 'Make a reservation on behalf of a customer', login_path %></td>
+  </div>
+
 
 </div>

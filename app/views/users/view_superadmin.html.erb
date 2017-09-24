@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<div class="table-div">
+  <div class="div-header">
+    <h1>Users</h1>
+    <%= link_to 'New User', new_user_path %>
+  </div>
+  <table>
+    <thead>
+    <tr>
+      <th>Email</th>
+      <th>Name</th>
+      <th>Type</th>
+      <th colspan="2"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @users.each do |user| %>
+        <% if user.u_type == 1 %>
+            <tr>
+              <td><%= link_to user.email_id, user %></td>
+              <td><%= user.name %></td>
+              <td><%= user.u_type %></td>
+              <td><%= link_to 'Edit', edit_user_path(user) %></td>
+              <td><%= link_to 'Delete', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            </tr>
+        <%end%>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<br>
+

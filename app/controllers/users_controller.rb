@@ -17,6 +17,15 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  def new_superadmin
+    @user = User.new
+  end
+
+  def view_superadmin
+    @users = User.all
+  end
+
+
   # GET /users/1/edit
   def edit
   end

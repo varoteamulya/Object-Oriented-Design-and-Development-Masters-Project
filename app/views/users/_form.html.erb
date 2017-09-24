@@ -26,10 +26,12 @@
     <%= form.text_field :password, id: :user_password %>
   </div>
 
-  <div class="field">
+    <h5>Select '3' for customer and '2' for admin</h5>
+
+    <div class="field">
     <%= form.label :u_type %>
-    <%= form.text_field :u_type, id: :user_type %>
-  </div>
+    <%= form.select :u_type,['3','2'] %>
+    </div>
 
   <div class="actions">
     <%= form.submit %>

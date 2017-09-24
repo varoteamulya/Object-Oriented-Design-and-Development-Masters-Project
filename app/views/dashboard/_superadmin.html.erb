@@ -1,11 +1,11 @@
 <div>
 
   <div class="div-link">
-    <%= link_to 'Create a Super Admin', new_user_path %>
+    <%= link_to 'Create a Super Admin', new_superadmin_users_path %>
   </div>
 
   <div class="div-link">
-    <%= link_to 'View all Super Admins', users_path %>
+    <%= link_to 'View all Super Admins', view_superadmin_users_path %>
   </div>
 
   <%= render 'admin.html.erb', cars: @cars, user: @user%>

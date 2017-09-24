@@ -5,7 +5,12 @@ Rails.application.routes.draw do
       get 'checkout'
     end
   end
-  resources :users
+  resources :users do
+    collection do
+      get 'new_superadmin'
+      get 'view_superadmin'
+    end
+  end
   resources :sessions, only: [:new, :create, :destroy]
 
   get 'book_car', to: 'car#book'
