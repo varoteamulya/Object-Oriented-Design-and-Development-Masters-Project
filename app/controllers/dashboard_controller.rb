@@ -19,7 +19,13 @@ class DashboardController < ApplicationController
   end
 
   def new_suggest_car
-    puts filter_suggested_car_fields
+    suggestion = filter_suggested_car_fields
+    suggestion[:suggested_by] = @user['email_id']
+    @suggestion = Suggestion.new(suggestion)
+    if @suggestion.save
+      redirect_to dashboard_path
+    end
+
   end
 
   private
@@ -32,6 +38,6 @@ class DashboardController < ApplicationController
     end
 
     def filter_suggested_car_fields
-      params.permit(:Manufacturer, :Model)
+      params.permit(:manufacturer, :model)
     end
 end
