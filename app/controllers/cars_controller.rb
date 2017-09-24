@@ -6,8 +6,11 @@ class CarsController < ApplicationController
 
 
   def index
-    if params[:search]
-      @cars = Car.search(params[:search]).order("created_at DESC")
+    set_user
+    puts params[:search]
+    if params[:search] &&
+        !params[:search].empty?
+      @cars = Car.search(params[:search])#.order("created_at DESC")
     else
       @cars = Car.all
     end
