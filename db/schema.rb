@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 20170924220837) do
 
-  create_table "car_status", id: false, force: :cascade do |t|
+  create_table "car_status", force: :cascade do |t|
     t.string "status"
     t.integer "value"
     t.datetime "created_at", null: false
@@ -35,9 +35,10 @@ ActiveRecord::Schema.define(version: 20170924220837) do
     t.string "model"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "suggested_by"
   end
 
-  create_table "user_type", id: false, force: :cascade do |t|
+  create_table "user_type", force: :cascade do |t|
     t.string "name"
     t.integer "type"
     t.datetime "created_at", null: false
