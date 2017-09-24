@@ -14,7 +14,7 @@ class DashboardController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find(session[:current_user_id])
+      @user = session[:current_user]
     end
 
 end

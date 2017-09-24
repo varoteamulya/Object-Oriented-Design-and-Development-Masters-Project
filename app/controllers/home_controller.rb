@@ -14,7 +14,7 @@ class HomeController < ApplicationController
     @user = User.find(params[:email_id])
 
     # set user id into session
-    session[:current_user_id] = @user.id
+    session[:current_user] = @user
 
     # redirect to dashboard
     redirect_to dashboard_path
@@ -39,7 +39,7 @@ class HomeController < ApplicationController
     @user.save
 
     # set user id into session
-    session[:current_user_id] = @user.id
+    session[:current_user] = @user
 
     # redirect to dashboard
     redirect_to dashboard_path

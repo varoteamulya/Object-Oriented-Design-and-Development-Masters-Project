@@ -102,7 +102,7 @@ class CarsController < ApplicationController
 
     def set_user
       puts 'checking user'
-      @user = User.find(session[:current_user_id])
+      @user = session[:current_user]
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

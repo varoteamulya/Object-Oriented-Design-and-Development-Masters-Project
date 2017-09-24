@@ -3,9 +3,7 @@
 <div class="show-div">
   <div class="div-header">
     <h1>Car</h1>
+    <%= link_to 'Edit', edit_car_path(@car) %>
   </div>
   <%= render 'templates/car.html.erb', car: @car%>
 </div>
-
-<%= link_to 'Edit', edit_car_path(@car) %> |
-<%= link_to 'Back', cars_path %>

@@ -4,17 +4,7 @@
   <div class="div-header">
     <h1>Users</h1>
     <%= link_to 'New User', new_user_path %>
-      </div>
-
-
-  <div class="div-header">
-
-    <td><%= link_to 'New Car', new_car_path %></td>
   </div>
-
-
-
-
   <table>
     <thead>
       <tr>
@@ -24,14 +14,6 @@
         <th colspan="2"></th>
       </tr>
     </thead>
-
-
-
-
-
-
-
-
     <tbody>
     <% @users.each do |user| %>
         <tr>
@@ -40,8 +22,6 @@
           <td><%= user.u_type %></td>
           <td><%= link_to 'Edit', edit_user_path(user) %></td>
           <td><%= link_to 'Delete', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-
-
         </tr>
     <% end %>
     </tbody>
