@@ -1,0 +1,13 @@
+<div>
+
+  <div class="div-link">
+    <%= link_to 'Create a Super Admin', new_user_path %>
+  </div>
+
+  <div class="div-link">
+    <%= link_to 'View all Super Admins', users_path %>
+  </div>
+
+  <%= render 'admin.html.erb', cars: @cars, user: @user%>
+
+</div>

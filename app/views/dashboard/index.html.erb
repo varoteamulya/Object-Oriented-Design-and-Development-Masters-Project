@@ -9,12 +9,16 @@
 
   </div>
 
-  <% if @user['u_type'] == 3 %>
-    <%= render 'customer.html.erb', cars: @cars, user: @user%>
+  <% if @user['u_type'] == 1 %>
+      <%= render 'superadmin.html.erb', cars: @cars, user: @user%>
   <% end %>
 
   <% if @user['u_type'] == 2 %>
       <%= render 'admin.html.erb', cars: @cars, user: @user%>
+  <% end %>
+
+  <% if @user['u_type'] == 3 %>
+    <%= render 'customer.html.erb', cars: @cars, user: @user%>
   <% end %>
 
 </div>
