@@ -3,6 +3,8 @@
     Welcome <%= @user['name'] %>
   </h1>
 
+  <h3><%= link_to 'Edit your profile', edit_user_path(@user['email_id']) %></h3>
+
   <span class="logout"><%= link_to 'Logout', logout_path %></span>
 
   <div class="div-search">
