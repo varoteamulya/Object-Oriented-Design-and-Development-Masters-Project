@@ -33,8 +33,9 @@ Rails.application.routes.draw do
 
 
   get 'logins' => 'home#login'
+  get 'sign_ups' => 'home#sign_up'
 
-  post 'sign_up', to:'home#user_sign_up'
+  post 'sign_ups', to:'home#user_sign_up'
   post 'logins', to:'home#user_login'
   post 'make_reservation', to:'home#user_make_reservation'
 
