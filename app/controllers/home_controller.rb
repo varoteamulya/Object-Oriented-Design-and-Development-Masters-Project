@@ -8,7 +8,6 @@ class HomeController < ApplicationController
     @login = Login.new
   end
 
-
   # POST /login
   def user_login
     @login = Login.new(login_params)
@@ -38,36 +37,6 @@ class HomeController < ApplicationController
     end
   end
 
-
- def make_reservation
-
- end
-
- def user_make_reservation
-
-   #validate user
-   if @make_reservation.valid?
-     puts 'valid'
-     email_id = @make_reservation.email_id
-
-     puts email_id
-
-     # get user based on email id passed
-     @user = User.find(email_id)
-
-     # set user id into session
-     session[:current_user] = @user
-
-     # redirect to dashboard
-     redirect_to dashboard_path
-
-   else
-     puts 'invalid'
-     redirect_to make_reservation_path
-   end
- end
-
-
   # GET /sign_up
   def sign_up
     @user = User.new
@@ -89,6 +58,8 @@ class HomeController < ApplicationController
     # set user id into session
     session[:current_user] = @user
 
+    UserNotifierMailer.send_sign_up_email(@user).deliver_now
+
     # redirect to dashboard
     redirect_to dashboard_path
   end
@@ -98,9 +69,8 @@ class HomeController < ApplicationController
     params.require(:login).permit(:email_id, :name, :password)
   end
 
-  def make_reservation_params
-    params.require(:make_reservation).permit(:email_id)
+  def user_params
+    params.permit(:email_id, :name, :password)
   end
-
 
 end
