@@ -37,8 +37,10 @@
 
               <% elsif car.Availability == 'Checked_Out' %>
               <td><%= 'Car is Checked Out' %></td>
-              <td><%= link_to 'Return', {:controller => "cars", :action => "return", :car => car.id } %></td>
-              <td><%= link_to 'Register', {:controller => "cars", :action => "checkout", :car => car.id } %></td>
+              <td>
+                <%= link_to 'Return', {:controller => "cars", :action => "return", :car => car.id } %><br/>
+                <%= link_to 'Register for email upon availability', {:controller => "cars", :action => "register_for_email", :car => car.id } %>
+              </td>
 
           <% else %>
 

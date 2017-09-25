@@ -37,6 +37,9 @@ class CarsController < ApplicationController
     @car = Car.find(params[:car])
     @car.update_column(:Availability, "Booked")
     @car.save
+
+    #start cron job
+    CarStatusResetJob.set(wait: 30.minutes).perform_later(@car)
   end
 
   def checkout
@@ -49,6 +52,12 @@ class CarsController < ApplicationController
     @car = Car.find(params[:car])
     @car.update_column(:Availability, "Available")
     @car.save
+  end
+
+  def register_for_email
+    @car = Car.find(params[:car])
+
+    #add user req to db
   end
 
   # POST /cars
