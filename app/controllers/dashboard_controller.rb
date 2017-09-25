@@ -6,7 +6,7 @@ class DashboardController < ApplicationController
   def index
     set_car
 
-    @checkouts = Checkout.joins(:cars).where(Checkout.license = @cars.License)
+   #@checkouts = Checkout.joins(:cars).where(Checkout.license = @cars.License)
   end
 
   def logout
@@ -14,6 +14,10 @@ class DashboardController < ApplicationController
     session.clear
 
     redirect_to home_path
+  end
+
+  def edit
+    redirect_to
   end
 
   def suggest_car

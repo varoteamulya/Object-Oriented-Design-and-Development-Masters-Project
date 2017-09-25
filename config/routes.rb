@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   root 'home#index'
 
   get 'dashboard' => 'dashboard#index'
+  get 'edit_dashboard' => 'dashboard#edit'
   get 'home' => 'home#index'
   get 'sign_up' => 'home#sign_up'
   get 'login' => 'home#login'
