@@ -3,6 +3,8 @@ Rails.application.routes.draw do
     collection do
       get 'book'
       get 'checkout'
+      get 'return'
+      get 'register_for_email'
     end
   end
   resources :users do
