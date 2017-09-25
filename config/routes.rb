@@ -27,10 +27,14 @@ Rails.application.routes.draw do
   get 'sign_up' => 'home#sign_up'
   get 'login' => 'home#login'
 
+  get 'make_reservation' =>'home#make_reservation'
+
+
   get 'logins' => 'home#login'
 
   post 'sign_up', to:'home#user_sign_up'
   post 'logins', to:'home#user_login'
+  post 'make_reservation', to:'home#user_make_reservation'
 
   get 'logout' => 'dashboard#logout'
 end

@@ -1,0 +1,10 @@
+<%= form_with(model: make_reservation, local: true) do |form| %>
+    <div class="field">
+      <%= form.label :email_id %>
+      <%= form.text_field :email_id, id: :user_email_id %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+<% end %>
