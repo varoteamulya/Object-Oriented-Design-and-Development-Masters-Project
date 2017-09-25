@@ -46,7 +46,7 @@ class HomeController < ApplicationController
   def user_sign_up
     puts params
 
-    params_to_pass = user_params()
+    params_to_pass = user_params
 
     params_to_pass[:u_type] = 3
     puts params_to_pass
@@ -58,6 +58,8 @@ class HomeController < ApplicationController
     # set user id into session
     session[:current_user] = @user
 
+    UserNotifierMailer.send_sign_up_email(@user).deliver_now
+
     # redirect to dashboard
     redirect_to dashboard_path
   end
@@ -65,6 +67,10 @@ class HomeController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def login_params
     params.require(:login).permit(:email_id, :name, :password)
+  end
+
+  def user_params
+    params.permit(:email_id, :name, :password)
   end
 
 end
