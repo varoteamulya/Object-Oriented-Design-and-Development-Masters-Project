@@ -1,15 +1,16 @@
-<%= form_with(model: sign_up, local: true) do |form| %>
-    <% if sign_up.errors.any? %>
+<%= form_with(model: user, local: true) do |form| %>
+    <% if user.errors.any? %>
         <div id="error_explanation">
-          <h2><%= pluralize(sign_up.errors.count, "error") %> prohibited this user from signing up</h2>
+          <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
           <ul>
-            <% sign_up.errors.full_messages.each do |message| %>
+            <% user.errors.full_messages.each do |message| %>
                 <li><%= message %></li>
             <% end %>
           </ul>
         </div>
     <% end %>
+
     <div class="field">
       <%= form.label :email_id %>
       <%= form.text_field :email_id, id: :user_email_id %>
@@ -22,12 +23,7 @@
 
     <div class="field">
       <%= form.label :password %>
-      <%= form.password_field :password, id: :user_password %>
-    </div>
-
-    <div class="field">
-      <%= form.label :confirm_password %>
-      <%= form.password_field :confirm_password, id: :user_password %>
+      <%= form.text_field :password, id: :user_password %>
     </div>
 
     <div class="actions">
