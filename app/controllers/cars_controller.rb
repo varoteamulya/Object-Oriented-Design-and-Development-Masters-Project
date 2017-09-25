@@ -45,6 +45,9 @@ class CarsController < ApplicationController
   def checkout
     @car = Car.find(params[:car])
     @car.update_column(:Availability, "Checked_Out")
+    set_user
+    @checkout = Checkout.new(:email_id => @user['email_id'] , :license => @car.License, :status => "Checked_Out")
+    @checkout.save
     @car.save
   end
 
