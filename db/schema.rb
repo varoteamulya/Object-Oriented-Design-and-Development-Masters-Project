@@ -35,7 +35,6 @@ ActiveRecord::Schema.define(version: 20170924220837) do
     t.string "model"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "suggested_by"
   end
 
   create_table "user_type", force: :cascade do |t|
@@ -49,7 +48,7 @@ ActiveRecord::Schema.define(version: 20170924220837) do
     t.text "email_id"
     t.text "name"
     t.text "password"
-    t.integer "u_type"
+    t.integer "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
