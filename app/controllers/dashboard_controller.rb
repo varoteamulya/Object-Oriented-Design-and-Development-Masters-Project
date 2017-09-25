@@ -4,9 +4,7 @@ class DashboardController < ApplicationController
 
   # /dashboard
   def index
-    set_car
-
-   #@checkouts = Checkout.joins(:cars).where(Checkout.license = @cars.License)
+    @checkouts = Checkout.joins('INNER JOIN cars ON checkouts.license = cars.License and checkouts.email_id = "'+@user['email_id']+'"')
   end
 
   def logout
@@ -47,11 +45,7 @@ class DashboardController < ApplicationController
       params.permit(:manufacturer, :model)
     end
 
-  def set_car
-    @cars = Car.all
-  end
-
-  def car_params
-    params.require(:car).permit(:License, :Plate, :Manufacturer, :Model, :Hourly, :Rental, :Rate, :Style, :Location, :Availability, :Checkout)
-  end
+    def car_params
+      params.require(:car).permit(:License, :Plate, :Manufacturer, :Model, :Hourly, :Rental, :Rate, :Style, :Location, :Availability, :Checkout)
+    end
 end
