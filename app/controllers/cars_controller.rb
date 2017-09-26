@@ -43,13 +43,18 @@ class CarsController < ApplicationController
   end
 
   def checkout
+
     @car = Car.find(params[:car])
     @car.update_column(:Availability, "Checked_Out")
-    set_user
-    @checkout = Checkout.new(:email_id => @user['email_id'] , :license => @car.License, :status => "Checked_Out")
+     set_user
+    @check_out = CheckOut.new(car_checkout)
+    @checkout = Checkout.new(:email_id => @user['email_id'] , :license => @car.License, :status => "Checked_Out", :number_of_hours => @check_out)
+
     @checkout.save
     @car.save
   end
+
+
 
   def return
     @car = Car.find(params[:car])
@@ -123,6 +128,9 @@ class CarsController < ApplicationController
       end
     end
 
+  def car_checkout
+    params.permit(:hours)
+  end
     # Never trust parameters from the scary internet, only allow the white list through.
     def car_params
       params.require(:car).permit(:License, :Plate, :Manufacturer, :Model, :Hourly, :Rental, :Rate, :Style, :Location, :Availability, :Checkout)

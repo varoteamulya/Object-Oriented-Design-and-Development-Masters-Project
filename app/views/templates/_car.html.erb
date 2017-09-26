@@ -37,3 +37,7 @@
   <span class="span-label"><strong>Checkout:</strong></span>
   <span class="span-value"><%= car.Checkout %></span>
 </p>
+
+<% if action = "checkout" %>
+    <%= render 'templates/car_checkout.html.erb', car: car, check_out: @check_out %>
+<% end %>

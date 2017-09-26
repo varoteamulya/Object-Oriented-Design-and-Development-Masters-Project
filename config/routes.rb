@@ -28,16 +28,19 @@ Rails.application.routes.draw do
   get 'home' => 'home#index'
   get 'sign_up' => 'home#sign_up'
   get 'login' => 'home#login'
+  get 'check_out' => 'templates#car_checkout'
 
   get 'make_reservation' =>'home#make_reservation'
 
 
   get 'logins' => 'home#login'
   get 'sign_ups' => 'home#sign_up'
+  get 'check_outs' => 'cars#checkout'
 
   post 'sign_ups', to:'home#user_sign_up'
   post 'logins', to:'home#user_login'
   post 'make_reservation', to:'home#user_make_reservation'
+  post 'check_outs' => 'cars#checkout'
 
   get 'logout' => 'dashboard#logout'
 end

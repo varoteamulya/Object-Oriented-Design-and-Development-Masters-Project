@@ -4,9 +4,9 @@ class DashboardController < ApplicationController
 
   # /dashboard
   def index
-    set_car
-
-    @checkouts = Checkout.joins(:cars).where(Checkout.license = @cars.License)
+ #   set_car
+@checkouts = Checkout.all
+#    @checkouts = Checkout.joins(:cars).where(Checkout.license = @cars.License)
   end
 
   def logout

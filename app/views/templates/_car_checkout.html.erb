@@ -1,0 +1,11 @@
+<%= form_with(model: check_out, local: true) do |form| %>
+
+    <div class="field">
+      <%= form.label :hours %>
+      <%= form.text_field :hours, id: :hours %>
+    </div>
+
+    <div class="actions">
+      <td><%= link_to 'Checkout', {:controller => "cars", :action => "checkout", :car => car.id } %></td>
+    </div>
+<% end %>
