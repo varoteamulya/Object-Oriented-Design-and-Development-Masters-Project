@@ -1,6 +1,6 @@
 # README
 
-Functionality covered
+Functionalities covered
 
 Customers
 Customers can login and reserve a car based on the time constraints present in the Problem Statement. The customers cannot edit the cars The Customers can book,checkout and return the cars.
