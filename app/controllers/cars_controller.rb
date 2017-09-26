@@ -18,10 +18,19 @@ class CarsController < ApplicationController
   # GET /cars/1
   # GET /cars/1.json
   def show
-    @checkout = CarCheckout.new(:checkout_by => @user['email_id'] , :license => @car.License)
-    puts @checkout
-    set_user
-    puts @user
+    unless @car
+      action = params['id']
+      if action == 'return_car'
+        return_car
+      elsif action == 'book_car'
+        book_car
+      end
+    else
+      @checkout = CarCheckout.new(:checkout_by => @user['email_id'] , :license => @car.license)
+      puts @checkout
+      set_user
+      puts @user
+    end
   end
 
   # GET /cars/new
@@ -35,21 +44,22 @@ class CarsController < ApplicationController
 
   # GET /cars/1
   # GET /cars/1.json
-  def book
+  def book_car
     @car = Car.find(params[:car])
-    @car.update_column(:Availability, "Booked")
+    @car.update_column(:availability, "Booked")
     @car.save
 
-    @checkout = CarCheckout.new
+    # @checkout = CarCheckout.new
 
     #start cron job
     CarStatusResetJob.set(wait: 30.minutes).perform_later(@car)
+
+    redirect_to dashboard_path
   end
 
   def checkout
-    set_user
     @car = Car.find(params[:car])
-    @checkout = CarCheckout.new(:license => @car['License'], :checkout_by => @user['email_id'])
+    @checkout = CarCheckout.new(:license => @car['license'], :checkout_by => @user['email_id'])
     puts @car
 
   end
@@ -63,7 +73,7 @@ class CarsController < ApplicationController
     @car = Car.find(@checkout.license)
     set_user
 
-    @car.update_column(:Availability, "Checked_Out")
+    @car.update_column(:availability, "Checked_Out")
     @car.save
 
     @checkout.save
@@ -72,14 +82,13 @@ class CarsController < ApplicationController
 
   end
 
-  def return
-    set_user
-
+  def return_car
+    puts 'here in return', params
     @car = Car.find(params[:car])
-    @car.update_column(:Availability, "Available")
+    @car.update_column(:availability, "Available")
     @car.save
 
-    @checkout = CarCheckout.where(:license => @car.License, :checkout_by => @user['email_id'], :status => 'checked out').take
+    @checkout = CarCheckout.where(:license => @car.license, :checkout_by => @user['email_id'], :status => 'checked out').take
     @checkout.update_column(:status, 'returned')
     @checkout.save
 
@@ -96,7 +105,7 @@ class CarsController < ApplicationController
   # POST /cars.json
   def create
     @car = Car.new(car_params)
-    @car.Availability = 'Available'
+    @car.availability = 'Available'
 
     respond_to do |format|
       if @car.save
@@ -143,7 +152,9 @@ class CarsController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_car
-      @car = Car.find(params[:id])
+      if Car.exists?(params[:id])
+        @car = Car.find(params[:id])
+      end
     end
 
     def set_user
@@ -158,6 +169,6 @@ class CarsController < ApplicationController
   end
     # Never trust parameters from the scary internet, only allow the white list through.
     def car_params
-      params.require(:car).permit(:License, :Plate, :Manufacturer, :Model, :Hourly, :Rental, :Rate, :Style, :Location, :Availability, :Checkout)
+      params.require(:car).permit(:license, :Plate, :manufacturer, :model, :hourly, :Rental, :Rate, :style, :location, :availability, :checkout)
     end
 end

@@ -1,39 +1,39 @@
 <p>
   <span class="span-label"><strong>License:</strong></span>
-  <span class="span-value"><%= car.License %></span>
+  <span class="span-value"><%= car.license %></span>
 </p>
 
 <p>
   <span class="span-label"><strong>Manufacturer:</strong></span>
-  <span class="span-value"><%= car.Manufacturer %></span>
+  <span class="span-value"><%= car.manufacturer %></span>
 </p>
 
 <p>
   <span class="span-label"><strong>Model:</strong></span>
-  <span class="span-value"><%= car.Model %></span>
+  <span class="span-value"><%= car.model %></span>
 </p>
 
 <p>
   <span class="span-label"><strong>Hourly:</strong></span>
-  <span class="span-value"><%= car.Hourly %></span>
+  <span class="span-value"><%= car.hourly %></span>
 </p>
 
 <p>
   <span class="span-label"><strong>Style:</strong></span>
-  <span class="span-value"><%= car.Style %></span>
+  <span class="span-value"><%= car.style %></span>
 </p>
 
 <p>
   <span class="span-label"><strong>Location:</strong></span>
-  <span class="span-value"><%= car.Location %></span>
+  <span class="span-value"><%= car.location %></span>
 </p>
 
 <p>
   <span class="span-label"><strong>Availability:</strong></span>
-  <span class="span-value"><%= car.Availability %></span>
+  <span class="span-value"><%= car.availability %></span>
 </p>
 
-<% unless car.Availability == "Checked_Out" %>
+<% unless car.availability == "Checked_Out" %>
     <div class="form-div">
       <%= render 'templates/car_checkout.html.erb', car: car, checkout: @checkout %>
     </div>

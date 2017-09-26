@@ -29,15 +29,17 @@ ActiveRecord::Schema.define(version: 20170925235848) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "cars", primary_key: "License", id: :string, force: :cascade do |t|
-    t.string "Manufacturer"
-    t.string "Model"
-    t.string "Hourly"
-    t.string "Style"
-    t.string "Location"
-    t.string "Availability"
-    t.string "Checkout"
-    t.index ["License"], name: "sqlite_autoindex_cars_1", unique: true
+  create_table "cars", primary_key: "license", id: :string, force: :cascade do |t|
+    t.string "manufacturer"
+    t.string "model"
+    t.string "hourly"
+    t.string "style"
+    t.string "location"
+    t.string "availability"
+    t.string "checkout"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["license"], name: "sqlite_autoindex_cars_1", unique: true
   end
 
   create_table "check_outs", force: :cascade do |t|

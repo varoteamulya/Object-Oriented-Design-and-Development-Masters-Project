@@ -17,7 +17,7 @@ class CarsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create car" do
     assert_difference('Car.count') do
-      post cars_url, params: { car: { Availability: @car.Availability, Checkout: @car.Checkout, Hourly: @car.Hourly, License: @car.License, Location: @car.Location, Manufacturer: @car.Manufacturer, Model: @car.Model, Plate: @car.Plate, Rate: @car.Rate, Rental: @car.Rental, Style: @car.Style } }
+      post cars_url, params: { car: { Availability: @car.availability, Checkout: @car.checkout, Hourly: @car.hourly, License: @car.license, Location: @car.location, Manufacturer: @car.manufacturer, Model: @car.model, Plate: @car.Plate, Rate: @car.Rate, Rental: @car.Rental, Style: @car.style } }
     end
 
     assert_redirected_to car_url(Car.last)
@@ -34,7 +34,7 @@ class CarsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update car" do
-    patch car_url(@car), params: { car: { Availability: @car.Availability, Checkout: @car.Checkout, Hourly: @car.Hourly, License: @car.License, Location: @car.Location, Manufacturer: @car.Manufacturer, Model: @car.Model, Plate: @car.Plate, Rate: @car.Rate, Rental: @car.Rental, Style: @car.Style } }
+    patch car_url(@car), params: { car: { Availability: @car.availability, Checkout: @car.checkout, Hourly: @car.hourly, License: @car.license, Location: @car.location, Manufacturer: @car.manufacturer, Model: @car.model, Plate: @car.Plate, Rate: @car.Rate, Rental: @car.Rental, Style: @car.style } }
     assert_redirected_to car_url(@car)
   end
 
