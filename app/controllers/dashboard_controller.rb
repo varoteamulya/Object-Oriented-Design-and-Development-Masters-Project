@@ -4,31 +4,34 @@ class DashboardController < ApplicationController
 
   # /dashboard
   def index
-    @cars = Car.joins('INNER JOIN car_checkouts ON car_checkouts.license = cars.License and car_checkouts.checkout_by = "'+@user['email_id']+'"')
-    @reservations = {}
-    @cars.each do |car|
-      if car.Availability == 'Booked'
-        unless @reservations['reservedCars']
-          @reservations['reservedCars'] = Array.new
+    set_user
+    if @user['u_type'] == 3
+      @cars = Car.joins('INNER JOIN car_checkouts ON car_checkouts.license = cars.License and car_checkouts.checkout_by = "'+@user['email_id']+'"')
+      @reservations = {}
+      @cars.each do |car|
+        if car.Availability == 'Booked'
+          unless @reservations['reservedCars']
+            @reservations['reservedCars'] = Array.new
+          end
+          @reservations['reservedCars'].push(car)
         end
-        @reservations['reservedCars'].push(car)
       end
-    end
-    carsHistory = Car.joins('INNER JOIN car_checkouts ON car_checkouts.license = cars.License and car_checkouts.checkout_by = "'+@user['email_id']+'" and car_checkouts.status="checked out"')
-    carsHistory.each do |car|
-      unless @reservations['checkedOutCars']
-        @reservations['checkedOutCars'] = Array.new
+      carsHistory = Car.joins('INNER JOIN car_checkouts ON car_checkouts.license = cars.License and car_checkouts.checkout_by = "'+@user['email_id']+'" and car_checkouts.status="checked out"')
+      carsHistory.each do |car|
+        unless @reservations['checkedOutCars']
+          @reservations['checkedOutCars'] = Array.new
+        end
+        @reservations['checkedOutCars'].push(car)
       end
-      @reservations['checkedOutCars'].push(car)
-    end
 
-    carsHistory = Car.joins('INNER JOIN car_checkouts ON car_checkouts.license = cars.License and car_checkouts.checkout_by = "'+@user['email_id']+'" and car_checkouts.status="returned"')
+      carsHistory = Car.joins('INNER JOIN car_checkouts ON car_checkouts.license = cars.License and car_checkouts.checkout_by = "'+@user['email_id']+'" and car_checkouts.status="returned"')
 
-    carsHistory.each do |car|
-      unless @reservations['checkedOutHistory']
-        @reservations['checkedOutHistory'] = Array.new
+      carsHistory.each do |car|
+        unless @reservations['checkedOutHistory']
+          @reservations['checkedOutHistory'] = Array.new
+        end
+        @reservations['checkedOutHistory'].push(car)
       end
-      @reservations['checkedOutHistory'].push(car)
     end
   end
 
