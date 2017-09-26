@@ -52,6 +52,7 @@ class CarsController < ApplicationController
 
     @checkout.save
     @car.save
+
   end
 
 

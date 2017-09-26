@@ -1,3 +1,4 @@
 <p id="notice"><%= notice %></p>
 
-<%= render 'templates/car_table.html.erb', cars: @cars, user: @user, check_out: @check_out %>
+<%= link_to 'Back', dashboard_path %>
+<%= render 'templates/car_table.html.erb', cars: @cars, user: @user %>
