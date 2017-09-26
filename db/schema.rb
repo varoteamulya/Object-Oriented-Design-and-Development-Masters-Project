@@ -19,7 +19,6 @@ ActiveRecord::Schema.define(version: 20170925235848) do
     t.datetime "checkout_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status"
   end
 
   create_table "car_status", force: :cascade do |t|
@@ -29,7 +28,8 @@ ActiveRecord::Schema.define(version: 20170925235848) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "cars", primary_key: "license", id: :string, force: :cascade do |t|
+  create_table "cars", force: :cascade do |t|
+    t.string "license"
     t.string "manufacturer"
     t.string "model"
     t.string "hourly"
@@ -39,10 +39,17 @@ ActiveRecord::Schema.define(version: 20170925235848) do
     t.string "checkout"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["license"], name: "sqlite_autoindex_cars_1", unique: true
   end
 
   create_table "check_outs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "checkouts", force: :cascade do |t|
+    t.string "email_id"
+    t.string "license"
+    t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -65,7 +72,7 @@ ActiveRecord::Schema.define(version: 20170925235848) do
     t.text "email_id"
     t.text "name"
     t.text "password"
-    t.integer "u_type"
+    t.integer "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
