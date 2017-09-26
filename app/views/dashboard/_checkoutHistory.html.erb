@@ -10,7 +10,18 @@
     </thead>
 
     <tbody>
+    <% @checkouts.each do |check| %>
+        <tr>
 
+
+          <td><%= check.license %></td>
+          <td><%= check.status %></td>
+          <td><%= check.created_at %></td>
+
+
+
+        </tr>
+    <% end %>
     </tbody>
   </table>
 </div>

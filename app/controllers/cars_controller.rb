@@ -49,6 +49,7 @@ class CarsController < ApplicationController
     @checkout = Checkout.new(:email_id => @user['email_id'] , :license => @car.License, :status => "Checked_Out")
     @checkout.save
     @car.save
+
   end
 
   def return
