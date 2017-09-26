@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  license: 
+  checkout_by: 
+  duration: 
+  checkout_at: 2017-09-25 19:58:48
+
+two:
+  license: 
+  checkout_by: 
+  duration: 
+  checkout_at: 2017-09-25 19:58:48

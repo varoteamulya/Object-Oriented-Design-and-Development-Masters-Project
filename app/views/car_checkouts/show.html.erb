@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>License:</strong>
+  <%= @car_checkout.license %>
+</p>
+
+<p>
+  <strong>Checkout by:</strong>
+  <%= @car_checkout.checkout_by %>
+</p>
+
+<p>
+  <strong>Duration:</strong>
+  <%= @car_checkout.duration %>
+</p>
+
+<p>
+  <strong>Checkout at:</strong>
+  <%= @car_checkout.checkout_at %>
+</p>
+
+<%= link_to 'Edit', edit_car_checkout_path(@car_checkout) %> |
+<%= link_to 'Back', car_checkouts_path %>

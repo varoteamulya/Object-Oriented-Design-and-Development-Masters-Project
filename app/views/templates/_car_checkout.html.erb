@@ -1,0 +1,32 @@
+<%= form_with(model: checkout, local: true) do |form| %>
+
+    <% if checkout.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(login.errors.count, "error") %> prohibited this checkout:</h2>
+
+          <ul>
+            <% checkout.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+    <div class="field">
+      <%= form.label :duration %>
+      <%= form.text_field :duration, id: :duration %>
+    </div>
+
+    <div class="field" style="display:none;">
+      <%= form.label :checkout_by %>
+      <%= form.text_field :checkout_by, id: :checkout_by %>
+    </div>
+
+    <div class="field" style="display:none;">
+      <%= form.label :license %>
+      <%= form.text_field :license, id: :license %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+<% end %>

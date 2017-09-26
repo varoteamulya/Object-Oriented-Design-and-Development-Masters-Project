@@ -1,0 +1,20 @@
+<%= form_with(model: user_edit, local: true) do |form| %>
+    <div class="field">
+      <span>Email Id : </span>
+      <span><%= user_edit.email_id %></span>
+    </div>
+
+    <div class="field">
+      <%= form.label :name %>
+      <%= form.text_field :name, id: :user_name %>
+    </div>
+
+    <div class="field">
+      <%= form.label :password %>
+      <%= form.text_field :password, id: :password %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+<% end %>

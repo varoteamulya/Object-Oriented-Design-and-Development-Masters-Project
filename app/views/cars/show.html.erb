@@ -3,7 +3,9 @@
 <div class="show-div">
   <div class="div-header">
     <h1>Car</h1>
-    <%= link_to 'Edit', edit_car_path(@car) %>
+    <% unless @user['u_type'] == 3 %>
+      <%= link_to 'Edit', edit_car_path(@car) %>
+    <% end %>
   </div>
-  <%= render 'templates/car.html.erb', car: @car%>
+  <%= render 'templates/car.html.erb', car: @car, checkout: @checkout %>
 </div>

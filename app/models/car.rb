@@ -1,6 +1,5 @@
 class Car < ApplicationRecord
 
-
   validates :License, :presence => true , uniqueness:true
   validates :Manufacturer, :presence => true
   validates :Hourly, :presence => true

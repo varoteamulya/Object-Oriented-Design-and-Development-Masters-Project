@@ -1,15 +1,20 @@
 <div>
-  <h1>
+  <h2>
     Welcome <%= @user['name'] %>
-  </h1>
+  </h2>
 
-  <h3><%= link_to 'Edit your profile', edit_user_path(@user['email_id']) %></h3>
+  <span class="edit-profile"><%= link_to 'Edit profile', edit_profile_path %></span>
 
   <span class="logout"><%= link_to 'Logout', logout_path %></span>
 
   <div class="div-search">
 
   </div>
+
+  <%= form_tag(cars_path, :method => "get", id: "search-form") do %>
+      <%= text_field_tag :search, params[:search], placeholder: "Search Cars" %>
+      <%= submit_tag "Search" %>
+  <% end %>
 
   <% if @user['u_type'] == 1 %>
       <%= render 'superadmin.html.erb', cars: @cars, user: @user%>
@@ -20,11 +25,7 @@
   <% end %>
 
   <% if @user['u_type'] == 3 %>
-    <%= render 'customer.html.erb', cars: @cars, user: @user%>
+    <%= render 'customer.html.erb', cars: @cars, user: @user, reservations: @reservations%>
   <% end %>
 
 </div>
-
-
-<h2>Checkedout history</h2>
-<%= render 'checkoutHistory.html.erb', user: @user%>

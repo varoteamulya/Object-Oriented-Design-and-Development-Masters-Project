@@ -1,30 +1,25 @@
 <div>
 
-  <%= form_tag(cars_path, :method => "get", id: "search-form") do %>
-      <%= text_field_tag :search, params[:search], placeholder: "Search Cars" %>
-      <%= submit_tag "Search" %>
-  <% end %>
+  <span class="suggest-car"><%= link_to 'Suggest a car', suggest_car_path %></span>
 
-  <% if @user.respond_to? :reservedCar %>
-    <h1>Reserved Car</h1>
-    <%= render 'templates/car_table.html.erb', cars: @user.reservedCar, user: user%>
+  <% if reservations.has_key?('reservedCars') %>
+    <h3>Reserved Car</h3>
+    <%= render 'templates/car_table.html.erb', cars: reservations['reservedCars'], user: user%>
   <% else %>
       <div class="message-div">You have not reserved any car yet</div>
   <% end %>
 
-  <% if @user.respond_to? :checkedOutCar %>
-      <h1>Checkedout Car</h1>
-      <%= render 'templates/car_table.html.erb', cars: @user.checkedOutCar, user: user%>
+  <% if reservations.has_key?('checkedOutCars') %>
+    <h3>Checked-out Car</h3>
+    <%= render 'templates/car_table.html.erb', cars: reservations['checkedOutCars'], user: user%>
   <% else %>
-      <div class="message-div">You currently have no checked out cars</div>
+    <div class="message-div">You currently have no checked out cars</div>
   <% end %>
 
-  <% if @user.respond_to? :checkedOutHistory %>
-    <h1>Checkedout history</h1>
-    <%= render 'templates/car_table.html.erb', cars: @user.checkedOutHistory, user: user%>
+  <% if reservations.has_key?('checkedOutHistory') %>
+    <h3>Checked-out history</h3>
+    <%= render 'templates/car_table.html.erb', cars: reservations['checkedOutHistory'], user: user%>
   <% else %>
     <div class="message-div">You have no checked out history</div>
   <% end %>
-
-  <%= link_to 'Suggest a car', suggest_car_path %>
 </div>

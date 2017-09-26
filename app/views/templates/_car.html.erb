@@ -33,7 +33,8 @@
   <span class="span-value"><%= car.Availability %></span>
 </p>
 
-<p>
-  <span class="span-label"><strong>Checkout:</strong></span>
-  <span class="span-value"><%= car.Checkout %></span>
-</p>
+<% unless car.Availability == "Checked_Out" %>
+    <div class="form-div">
+      <%= render 'templates/car_checkout.html.erb', car: car, checkout: @checkout %>
+    </div>
+<% end %>

@@ -15,11 +15,13 @@ class CarsController < ApplicationController
     end
   end
 
-
-
   # GET /cars/1
   # GET /cars/1.json
   def show
+    @checkout = CarCheckout.new(:checkout_by => @user['email_id'] , :license => @car.License)
+    puts @checkout
+    set_user
+    puts @user
   end
 
   # GET /cars/new
@@ -38,23 +40,50 @@ class CarsController < ApplicationController
     @car.update_column(:Availability, "Booked")
     @car.save
 
+    @checkout = CarCheckout.new
+
     #start cron job
     CarStatusResetJob.set(wait: 30.minutes).perform_later(@car)
   end
 
   def checkout
-    @car = Car.find(params[:car])
-    @car.update_column(:Availability, "Checked_Out")
     set_user
-    @checkout = Checkout.new(:email_id => @user['email_id'] , :license => @car.License, :status => "Checked_Out")
-    @checkout.save
+    @car = Car.find(params[:car])
+    @checkout = CarCheckout.new(:license => @car['License'], :checkout_by => @user['email_id'])
+    puts @car
+
+  end
+
+  def do_checkout
+
+    car_checking_out = car_checkout
+
+    @checkout = CarCheckout.new(:license => car_checking_out['license'], :checkout_by => car_checking_out['checkout_by'], :status => 'checked out')
+
+    @car = Car.find(@checkout.license)
+    set_user
+
+    @car.update_column(:Availability, "Checked_Out")
     @car.save
+
+    @checkout.save
+
+    redirect_to dashboard_path
+
   end
 
   def return
+    set_user
+
     @car = Car.find(params[:car])
     @car.update_column(:Availability, "Available")
     @car.save
+
+    @checkout = CarCheckout.where(:license => @car.License, :checkout_by => @user['email_id'], :status => 'checked out').take
+    @checkout.update_column(:status, 'returned')
+    @checkout.save
+
+    redirect_to dashboard_path
   end
 
   def register_for_email
@@ -67,6 +96,7 @@ class CarsController < ApplicationController
   # POST /cars.json
   def create
     @car = Car.new(car_params)
+    @car.Availability = 'Available'
 
     respond_to do |format|
       if @car.save
@@ -123,6 +153,9 @@ class CarsController < ApplicationController
       end
     end
 
+  def car_checkout
+    params.require(:car_checkout).permit(:duration, :checkout_by, :license)
+  end
     # Never trust parameters from the scary internet, only allow the white list through.
     def car_params
       params.require(:car).permit(:License, :Plate, :Manufacturer, :Model, :Hourly, :Rental, :Rate, :Style, :Location, :Availability, :Checkout)

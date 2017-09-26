@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170925201645) do
+ActiveRecord::Schema.define(version: 20170925235848) do
+
+  create_table "car_checkouts", force: :cascade do |t|
+    t.string "license"
+    t.string "checkout_by"
+    t.integer "duration"
+    t.datetime "checkout_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "status"
+  end
 
   create_table "car_status", force: :cascade do |t|
     t.string "status"
@@ -19,8 +29,7 @@ ActiveRecord::Schema.define(version: 20170925201645) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "cars", force: :cascade do |t|
-    t.string "License"
+  create_table "cars", primary_key: "License", id: :string, force: :cascade do |t|
     t.string "Manufacturer"
     t.string "Model"
     t.string "Hourly"
@@ -28,12 +37,10 @@ ActiveRecord::Schema.define(version: 20170925201645) do
     t.string "Location"
     t.string "Availability"
     t.string "Checkout"
+    t.index ["License"], name: "sqlite_autoindex_cars_1", unique: true
   end
 
-  create_table "checkouts", force: :cascade do |t|
-    t.string "email_id"
-    t.string "license"
-    t.string "status"
+  create_table "check_outs", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -17,12 +17,7 @@
     <tbody>
     <% cars.each do |car| %>
         <tr>
-          <% if user['u_type'] == 1 or user['u_type'] == 2%>
           <td><%= link_to car.License, car %></td>
-          <% else %>
-              <td><%= car.License %></td>
-          <% end %>
-
           <td><%= car.Manufacturer %></td>
           <td><%= car.Model %></td>
           <td><%= car.Hourly %></td>
@@ -33,7 +28,7 @@
 
           <% if car.Availability == 'Booked' %>
               <td><%= 'Car is booked' %></td>
-              <td><%= link_to 'Checkout', {:controller => "cars", :action => "checkout", :car => car.id } %></td>
+              <td><%= link_to 'Checkout', car %></td>
 
               <% elsif car.Availability == 'Checked_Out' %>
               <td><%= 'Car is Checked Out' %></td>
@@ -44,9 +39,10 @@
 
           <% else %>
 
+              <% if user['u_type'] == 3 %>
               <td><%= link_to 'Book', {:controller => "cars", :action => "book", :car => car.id } %></td>
-              <td><%= link_to 'Checkout', {:controller => "cars", :action => "checkout", :car => car.id } %></td>
 
+                  <% end %>
           <% end %>
 
 
