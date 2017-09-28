@@ -1,10 +1,10 @@
-<%= form_with(model: make_reservation, local: true) do |form| %>
+<%= form_with(local: true) do |form| %>
     <div class="field">
       <%= form.label :email_id %>
-      <%= form.text_field :email_id, id: :user_email_id %>
+      <%= form.select :email_id, options_for_select(@users.map {|user| [ user['email_id'], user['email_id'] ] }) %>
     </div>
 
     <div class="actions">
-      <%= form.submit %>
+      <%= form.submit 'Select' %>
     </div>
 <% end %>

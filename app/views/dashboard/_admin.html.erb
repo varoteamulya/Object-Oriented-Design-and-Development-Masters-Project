@@ -1,24 +1,7 @@
 <div>
 
-  <div class="div-link">
-    <%= link_to 'Create an Admin/Customer', new_user_path %>
+  <div class="left-pane-div">
+    <%= render 'templates/admin_options_tab.html.erb' %>
   </div>
-
-  <div class="div-link">
-    <%= link_to 'View/Modify any Admin/Customer', users_path %>
-  </div>
-
-  <div class="div-link">
-    <td><%= link_to 'Add a Car', new_car_path %></td>
-  </div>
-
-  <div class="div-link">
-    <td><%= link_to 'View all Cars', cars_path %></td>
-  </div>
-
-  <div class="div-link">
-    <td><%= link_to 'Make a reservation on behalf of a customer', make_reservation_path %></td>
-  </div>
-
 
 </div>

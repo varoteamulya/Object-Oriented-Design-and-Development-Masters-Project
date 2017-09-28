@@ -1,4 +1,12 @@
 <p id="notice"><%= notice %></p>
 
 <%= link_to 'Back', dashboard_path %>
-<%= render 'templates/car_table.html.erb', cars: @cars, user: @user %>
+
+<% if @user_context %>
+  <p>
+    <span class="span-label"><strong>Booking for:</strong></span>
+    <span class="span-value"><%= @user_context['email_id'] %></span>
+    <%= link_to 'Abort booking', cancel_reservation_path %>
+  </p>
+<% end %>
+<%= render 'templates/car_table.html.erb', cars: @cars, user_context: @user_context, user: @user %>

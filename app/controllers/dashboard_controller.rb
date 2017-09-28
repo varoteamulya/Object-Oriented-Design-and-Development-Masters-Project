@@ -6,7 +6,7 @@ class DashboardController < ApplicationController
   def index
     set_user
     if @user['u_type'] == 3
-      @cars = Car.joins('INNER JOIN car_checkouts ON car_checkouts.license = cars.license where car_checkouts.checkout_by = \''+@user['email_id']+'\'')
+      @cars = Car.joins('INNER JOIN car_checkouts ON car_checkouts.license = cars.license where car_checkouts.checkout_by = \''+@user['email_id']+'\' and car_checkouts.status=\'booked\'')
       @reservations = {}
       @cars.each do |car|
         if car.availability == 'Booked'
@@ -70,6 +70,16 @@ class DashboardController < ApplicationController
       redirect_to dashboard_path
     end
 
+  end
+
+  def make_reservation
+    @users = User.where(u_type: 3)
+  end
+
+  def user_make_reservation
+    puts params
+    session[:user_context] = User.find(params[:email_id])
+    redirect_to cars_path
   end
 
   private

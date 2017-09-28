@@ -1,11 +1,10 @@
 class CarsController < ApplicationController
-  before_action :check_authorization, only: [:show, :edit, :update, :destroy]
+  before_action :check_authorization
 
   # GET /cars
   # GET /cars.json
 
   def index
-    set_user
     puts params[:search]
     if params[:search] &&
         !params[:search].empty?
@@ -42,14 +41,30 @@ class CarsController < ApplicationController
   def edit
   end
 
+  def cancel_reservation
+    session[:user_context] = nil
+    redirect_to dashboard_path
+  end
+
   # GET /cars/1
   # GET /cars/1.json
   def book_car
+    check_user_context
     @car = Car.find(params[:car])
+
+    @checkout = CarCheckout.new(
+        :license => @car['license'],
+        :checkout_by => @user_context['email_id'],
+        :checkout_at => DateTime.now,
+        :status => 'booked',
+        :time_to => DateTime.now,
+        :time_from => DateTime.now + 1
+    )
+
+    @checkout.save
+
     @car.update_column(:availability, "Booked")
     @car.save
-
-    # @checkout = CarCheckout.new
 
     #start cron job
     CarStatusResetJob.set(wait: 30.minutes).perform_later(@car)
@@ -58,8 +73,12 @@ class CarsController < ApplicationController
   end
 
   def checkout
+    check_user_context
     @car = Car.find(params[:car])
-    @checkout = CarCheckout.new(:license => @car['license'], :checkout_by => @user['email_id'])
+
+    unless @checkout
+      @checkout = CarCheckout.new(:license => @car['license'], :checkout_by => @user_context['email_id'])
+    end
     puts @car
 
   end
@@ -68,27 +87,53 @@ class CarsController < ApplicationController
 
     car_checking_out = car_checkout
 
-    @checkout = CarCheckout.new(:license => car_checking_out['license'], :checkout_by => car_checking_out['checkout_by'], :status => 'checked out')
+    puts car_checking_out
 
-    @car = Car.find(@checkout.license)
+    @checkout = CarCheckout.new(
+                               :time_from => car_checking_out['time_from'],
+                               :time_to => car_checking_out['time_to'],
+                               :license => car_checking_out['license'],
+                               :checkout_by => car_checking_out['checkout_by'],
+                               :checkout_at => car_checking_out['time_from'],
+                               :status => 'checked out'
+                )
+
     set_user
+    @car = Car.find(@checkout.license)
 
-    @car.update_column(:availability, "Checked_Out")
-    @car.save
+    if @checkout.valid?
+      puts 'valid'
 
-    @checkout.save
+      @checkout = CarCheckout.where(:license => @car.license, :checkout_by => @user_context['email_id'], :status => 'booked').take
 
-    redirect_to dashboard_path
+      @checkout.update_column(:status, 'checked out')
+      @checkout.update_column(:time_from, car_checking_out['time_from'])
+      @checkout.update_column(:time_to, car_checking_out['time_to'])
+      @checkout.update_column(:checkout_at, car_checking_out['time_from'])
+
+      @checkout.save
+
+      @car.update_column(:availability, "Checked_Out")
+      @car.save
+
+      redirect_to dashboard_path
+    else
+      puts 'invalid'
+      render action: 'checkout'
+    end
+
 
   end
 
   def return_car
+    check_user_context
+
     puts 'here in return', params
     @car = Car.find(params[:car])
     @car.update_column(:availability, "Available")
     @car.save
 
-    @checkout = CarCheckout.where(:license => @car.license, :checkout_by => @user['email_id'], :status => 'checked out').take
+    @checkout = CarCheckout.where(:license => @car.license, :checkout_by => @user_context['email_id'], :status => 'checked out').take
     @checkout.update_column(:status, 'returned')
     @checkout.save
 
@@ -147,6 +192,7 @@ class CarsController < ApplicationController
     def check_authorization
        puts 'checking authorization'
        set_user
+       check_user_context
        set_car
     end
 
@@ -164,8 +210,18 @@ class CarsController < ApplicationController
       end
     end
 
+    def check_user_context
+      if session[:user_context]
+        @user_context = session[:user_context]
+      else
+        if @user['u_type'] == 3
+          @user_context = @user
+        end
+      end
+    end
+
   def car_checkout
-    params.require(:car_checkout).permit(:duration, :checkout_by, :license)
+    params.require(:car_checkout).permit(:time_from, :time_to, :checkout_by, :license)
   end
     # Never trust parameters from the scary internet, only allow the white list through.
     def car_params

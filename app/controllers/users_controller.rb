@@ -4,7 +4,13 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    check_user
+    if @user['u_type'] == 1
+      @users = User.all
+    elsif @user['u_type'] == 2
+      @users = User.where.not(u_type: [1])
+    end
+
   end
 
   # GET /users/1
@@ -14,17 +20,10 @@ class UsersController < ApplicationController
 
   # GET /users/new
   def new
-    @user = User.new
+    check_user
+    @sign_up = SignUp.new
+    @action = params['action']
   end
-
-  def new_superadmin
-    @user = User.new
-  end
-
-  def view_superadmin
-    @users = User.all
-  end
-
 
   # GET /users/1/edit
   def edit
@@ -33,17 +32,20 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(user_params)
+    puts 'here'
+    puts params
 
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to dashboard_path, notice: 'User was successfully created.' }
-        format.json { render :show, status: :created, location: @user }
-      else
-        format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
+    # @user = User.new(user_params)
+    #
+    # respond_to do |format|
+    #   if @user.save
+    #     format.html { redirect_to dashboard_path, notice: 'User was successfully created.' }
+    #     format.json { render :show, status: :created, location: @user }
+    #   else
+    #     format.html { render :new }
+    #     format.json { render json: @user.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # PATCH/PUT /users/1
@@ -74,6 +76,13 @@ class UsersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
+    end
+
+    def check_user
+      @user = session[:current_user]
+      unless @user
+          redirect_to home_path
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

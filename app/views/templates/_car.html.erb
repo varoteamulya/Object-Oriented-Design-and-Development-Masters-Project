@@ -1,3 +1,4 @@
+
 <p>
   <span class="span-label"><strong>License:</strong></span>
   <span class="span-value"><%= car.license %></span>
@@ -33,8 +34,10 @@
   <span class="span-value"><%= car.availability %></span>
 </p>
 
-<% unless car.availability == "Checked_Out" %>
-    <div class="form-div">
-      <%= render 'templates/car_checkout.html.erb', car: car, checkout: @checkout %>
-    </div>
+<% if @user_context %>
+    <% unless car.availability == "Checked_Out" %>
+        <div class="form-div form-inside-div">
+          <%= render 'templates/car_checkout.html.erb', car: car, checkout: @checkout %>
+        </div>
+    <% end %>
 <% end %>
