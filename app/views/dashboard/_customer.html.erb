@@ -4,21 +4,21 @@
 
   <% if reservations.has_key?('reservedCars') %>
     <h3>Reserved Car</h3>
-    <%= render 'templates/car_table.html.erb', cars: reservations['reservedCars'], user: user%>
+    <%= render 'templates/car_checkout_table.html.erb', cars: reservations['reservedCars'], user: user, car_status: 'booked' %>
   <% else %>
       <div class="message-div">You have not reserved any car yet</div>
   <% end %>
 
   <% if reservations.has_key?('checkedOutCars') %>
     <h3>Checked-out Car</h3>
-    <%= render 'templates/car_table.html.erb', cars: reservations['checkedOutCars'], user: user%>
+    <%= render 'templates/car_checkout_table.html.erb', cars: reservations['checkedOutCars'], user: user , car_status: 'checked out' %>
   <% else %>
     <div class="message-div">You currently have no checked out cars</div>
   <% end %>
 
   <% if reservations.has_key?('checkedOutHistory') %>
     <h3>Checked-out history</h3>
-    <%= render 'templates/car_table.html.erb', cars: reservations['checkedOutHistory'], user: user%>
+    <%= render 'templates/car_checkout_table.html.erb', cars: reservations['checkedOutHistory'], user: user, car_status: 'returned'%>
   <% else %>
     <div class="message-div">You have no checked out history</div>
   <% end %>

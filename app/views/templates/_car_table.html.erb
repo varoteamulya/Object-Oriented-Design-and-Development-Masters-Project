@@ -1,55 +1,64 @@
-<div class="table-div">
-  <table>
-    <thead>
-    <tr>
-      <th>License Plate</th>
-      <th>Manufacturer</th>
-      <th>Model</th>
-      <th>Hourly Rental Rate</th>
-      <th>Style</th>
-      <th>Location</th>
-      <th>Availability</th>
-      <th colspan="3">Options</th>
-    </tr>
-    </thead>
+<% if cars.length == 0 %>
+    <div class="message-div">There is no car in the system</div>
+<% else %>
+  <div class="table-div">
+    <table>
+      <thead>
+      <tr>
+        <th>License Number</th>
+        <th>Manufacturer</th>
+        <th>Model Number</th>
+        <th>Hourly Rental Rate</th>
+        <th>Style</th>
+        <th>Location</th>
+        <th>Status</th>
+        <th colspan="3">Options</th>
+      </tr>
+      </thead>
 
-    <tbody>
-    <% cars.each do |car| %>
-        <tr>
-          <td><%= link_to car.license, car %></td>
-          <td><%= car.manufacturer %></td>
-          <td><%= car.model %></td>
-          <td><%= car.hourly %></td>
-          <td><%= car.style %></td>
-          <td><%= car.location %></td>
-          <td><%= car.availability %></td>
+      <tbody>
+      <% cars.each do |car| %>
+          <tr>
+            <td><%= link_to car.license, car %></td>
+            <td><%= car.manufacturer %></td>
+            <td><%= car.model %></td>
+            <td><%= car.hourly %></td>
+            <td><%= car.style %></td>
+            <td><%= car.location %></td>
+            <td><%= car.availability %></td>
 
-          <% if car.availability == 'Booked' %>
-              <td><%= 'Car is booked' %></td>
-              <td><%= link_to 'Checkout', car %></td>
+            <% if car.availability == 'Booked' %>
+                <td><%= 'Car is booked' %></td>
+                <% checkout_details = CarCheckout.exists?(license: car.license, checkout_by: user['email_id'], status: 'booked' ) %>
+                <% if checkout_details %>
+                    <td><%= link_to 'Checkout', car %></td>
+                <% else %>
+                    <td><%= link_to 'Register for email upon availability', {:controller => "cars", :action => "register_for_email", :car => car.license } %></td>
+                <% end %>
+            <% elsif car.availability == 'Checked_Out' %>
+                <% checkout_details = CarCheckout..exists?(license: car.license, checkout_by: user['email_id'], status: 'checked out' ) %>
 
-              <% elsif car.availability == 'Checked_Out' %>
-              <td><%= 'Car is Checked Out' %></td>
-              <td>
-                <%= link_to 'Return', {:controller => "cars", :action => "return_car", :car => car.license } %><br/>
-                <%= link_to 'Register for email upon availability', {:controller => "cars", :action => "register_for_email", :car => car.license } %>
-              </td>
-
-          <% else %>
-
-              <% if user['u_type'] == 3 %>
-              <td><%= link_to 'Book', {:controller => "cars", :action => "book_car", :car => car.license } %></td>
-
+                <td><%= 'Car is Checked Out' %></td>
+                <td>
+                  <%= link_to 'Return', {:controller => "cars", :action => "return_car", :car => car.license } %><br/>
+                  <% unless checkout_details %>
+                    <%= link_to 'Register for email upon availability', {:controller => "cars", :action => "register_for_email", :car => car.license } %>
                   <% end %>
-          <% end %>
-
-
-          <% unless user['u_type'] == 3 %>
-            <td><%= link_to 'Edit', edit_car_path(car) %></td>
-            <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-          <% end %>
-        </tr>
-    <% end %>
-    </tbody>
-  </table>
-</div>
+                </td>
+            <% else %>
+                <% if user['u_type'] == 3 %>
+                  <td><%= link_to 'Book', {:controller => "cars", :action => "book_car", :car => car.license } %></td>
+                <% end %>
+            <% end %>
+            <% unless user['u_type'] == 3 %>
+                <% unless car.availability == 'Checked_Out' %>
+                  <td><%= link_to 'Edit', edit_car_path(car) %></td>
+                  <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                <% end %>
+            <% end %>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

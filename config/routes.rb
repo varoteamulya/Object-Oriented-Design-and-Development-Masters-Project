@@ -30,7 +30,8 @@ Rails.application.routes.draw do
   get 'login' => 'home#login'
   get 'check_out' => 'templates#car_checkout'
 
-  get 'make_reservation' =>'home#make_reservation'
+  get 'make_reservation' =>'dashboard#make_reservation'
+  get 'cancel_reservation' =>'cars#cancel_reservation'
 
 
   get 'logins' => 'home#login'
@@ -40,7 +41,7 @@ Rails.application.routes.draw do
 
   post 'sign_ups', to:'home#user_sign_up'
   post 'logins', to:'home#user_login'
-  post 'make_reservation', to:'home#user_make_reservation'
+  post 'make_reservation', to:'dashboard#user_make_reservation'
   post 'car_checkouts' => 'cars#do_checkout'
   post 'user_edits' => 'dashboard#do_edit_profile'
 

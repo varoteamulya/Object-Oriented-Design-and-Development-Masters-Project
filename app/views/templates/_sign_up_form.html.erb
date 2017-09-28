@@ -10,6 +10,36 @@
           </ul>
         </div>
     <% end %>
+
+    <%
+      if @user
+        if @user['u_type'] == 1
+          @options_for_type = [
+              { "name" => "Super Admin", "id" => 1},
+              { "name" => "Admin", "id" => 2},
+              { "name" => "Customer", "id" => 3}
+          ]
+        elsif @user['u_type'] == 2
+          @options_for_type = [
+              { "name" => "Admin", "id" => 2},
+              { "name" => "Customer", "id" => 3}
+          ]
+        end
+      end
+      %>
+
+    <% if @options_for_type %>
+        <div class="field">
+          <%= form.label :type %>
+          <%= form.select :u_type, options_for_select(@options_for_type.map {|p| [ p['name'], p['id'] ] }) %>
+        </div>
+    <% else %>
+        <div class="field" style="display: none;">
+          <%= form.label :type %>
+          <%= form.text_field :u_type, id: :u_type, value: '3' %>
+        </div>
+    <% end %>
+
     <div class="field">
       <%= form.label :email_id %>
       <%= form.text_field :email_id, id: :user_email_id %>
@@ -31,6 +61,6 @@
     </div>
 
     <div class="actions">
-      <%= form.submit %>
+      <%= form.submit action %>
     </div>
 <% end %>

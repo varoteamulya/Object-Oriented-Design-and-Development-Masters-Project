@@ -4,9 +4,12 @@ class CarStatusResetJob < ApplicationJob
   def perform(*args)
     puts 'executing job to check and update car status'
     car = args[0]
+    car_checkout = args[1]
     if car.availability == 'Booked'
       car.availability = 'Available'
       car.save
+
+      car_checkout.destroy
 
       #send mail to users who had requested for email
       #change this

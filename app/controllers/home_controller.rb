@@ -1,4 +1,6 @@
 class HomeController < ApplicationController
+  before_action :set_user
+
   def home
 
   end
@@ -40,6 +42,7 @@ class HomeController < ApplicationController
   # GET /sign_up
   def sign_up
     @sign_up = SignUp.new
+    @action = params['action']
   end
 
   # POST /sign_up
@@ -52,27 +55,26 @@ class HomeController < ApplicationController
 
       params_to_pass = user_params
 
-      params_to_pass[:u_type] = 3
       puts params_to_pass
 
       # create new user
       @user = User.new(params_to_pass)
       @user.save
 
-      # set user id into session
-      session[:current_user] = @user
-
-      # UserNotifierMailer.send_sign_up_email(@user).deliver_now
+      unless @action == 'new'
+        # set user id into session
+        session[:current_user] = @user
+        UserNotifierMailer.send_sign_up_email(@user).deliver_now
+      end
 
       redirect_to dashboard_path
 
     else
       puts 'invalid'
-      render action: 'sign_up'
+      unless @action == 'new'
+        render action: 'sign_up'
+      end
     end
-
-    #check if user is already present or not
-
 
   end
 
@@ -82,11 +84,22 @@ class HomeController < ApplicationController
   end
 
   def signup_params
-    params.require(:sign_up).permit(:email_id, :name, :password, :confirm_password)
+    params.require(:sign_up).permit(:email_id, :name, :password, :confirm_password, :u_type)
   end
 
   def user_params
-    signup_params.permit(:email_id, :name, :password)
+    signup_params.permit(:email_id, :name, :password, :u_type)
+  end
+
+  def set_user
+    @user = session[:current_user]
+    if @user
+      unless params['commit'] == "new"
+        redirect_to dashboard_path
+      else
+        @action = 'new'
+      end
+    end
   end
 
 end

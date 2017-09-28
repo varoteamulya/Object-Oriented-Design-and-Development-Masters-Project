@@ -131,12 +131,16 @@ label {
   position: relative;
 }
 
+.form-inside-div, .form-inside-div form {
+  padding: 0px;
+}
+
 .form-div form .field label, .show-div p .span-label {
   display: block;
   width: 100px;
 }
 
-.form-div form .field input, .show-div p .span-value {
+.form-div form .field input, .form-div form .field select, .show-div p .span-value {
   height: 20px;
   width: 200px;
   text-align: end;
@@ -236,6 +240,11 @@ label {
   float: right;
   margin-top: -40px;
   margin-right: 170px;
+}
+
+.left-pane-div {
+  position: absolute;
+  width: 300px;
 }
 
 

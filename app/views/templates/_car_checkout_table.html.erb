@@ -1,0 +1,45 @@
+<div class="table-div">
+  <table>
+    <thead>
+    <tr>
+      <th>License Number</th>
+      <th>Manufacturer</th>
+      <th>Model Number</th>
+
+      <% if car_status == 'booked' %>
+          <th>Booked on</th>
+          <th>Booking expiring at</th>
+          <th colspan="2">Options</th>
+      <% elsif car_status == 'checked out' %>
+          <th>Checked out on</th>
+          <th>Expected return</th>
+          <th>Options</th>
+      <% elsif car_status == 'returned' %>
+          <th>Checked out on</th>
+          <th>Returned on</th>
+      <% end %>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% cars.each do |car| %>
+        <tr>
+          <td><%= link_to car.license, car %></td>
+          <td><%= car.manufacturer %></td>
+          <td><%= car.model %></td>
+          <td><%= car.time_from %></td>
+          <% if car.status == 'booked' %>
+              <td><%= car.time_to %></td>
+              <td><%= link_to 'Checkout', car %></td>
+              <td><%= link_to 'Cancel booking', car %></td>
+          <% elsif car.status == 'checked out' %>
+              <td><%= car.time_to %></td>
+              <td><%= link_to 'Return', {:controller => "cars", :action => "return_car", :car => car.license } %><td>
+          <% elsif car.status == 'returned' %>
+              <td><%= car.updated_at %></td>
+          <% end %>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,4 +1,5 @@
 class Car < ApplicationRecord
+  has_many :cars
 
   self.primary_key = 'license'
 
