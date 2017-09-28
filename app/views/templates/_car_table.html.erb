@@ -36,7 +36,7 @@
                     <td><%= link_to 'Register for email upon availability', {:controller => "cars", :action => "register_for_email", :car => car.license } %></td>
                 <% end %>
             <% elsif car.availability == 'Checked_Out' %>
-                <% checkout_details = CarCheckout..exists?(license: car.license, checkout_by: user['email_id'], status: 'checked out' ) %>
+                <% checkout_details = CarCheckout.exists?(license: car.license, checkout_by: user['email_id'], status: 'checked out' ) %>
 
                 <td><%= 'Car is Checked Out' %></td>
                 <td>
