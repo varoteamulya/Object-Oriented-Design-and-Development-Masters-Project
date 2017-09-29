@@ -13,8 +13,12 @@ class CarStatusResetJob < ApplicationJob
 
       #send mail to users who had requested for email
       #change this
-      user = User.find("nielarshi@gmail.com")
-      UserNotifierMailer.send_car_availability_email(user).deliver_now
+      if AvailabilityRequest.exists?(license: car.license)
+        availability_requests = AvailabilityRequest.where(license: car.license)
+        availability_requests.find_each do |availability_request|
+          UserNotifierMailer.send_car_availability_email(availability_request.email).deliver_now
+        end
+      end
     end
   end
 

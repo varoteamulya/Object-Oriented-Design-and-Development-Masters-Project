@@ -2,6 +2,12 @@
 
   <span class="suggest-car"><%= link_to 'Suggest a car', suggest_car_path %></span>
 
+  <% if reservations.has_key?('requestedCars') %>
+      <h3>Requested Cars</h3>
+      <%= render 'templates/car_checkout_table.html.erb', cars: reservations['requestedCars'], user: user, car_status: 'requested' %>
+  <% else %>
+      <div class="message-div">You have not requested any car yet</div>
+  <% end %>
   <% if reservations.has_key?('reservedCars') %>
     <h3>Reserved Car</h3>
     <%= render 'templates/car_checkout_table.html.erb', cars: reservations['reservedCars'], user: user, car_status: 'booked' %>

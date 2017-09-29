@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
-  resources :cars
   resources :cars do
     collection do
       get 'book_car'
       get 'checkout'
       get 'return_car'
       get 'register_for_email'
+      get 'cancel_booking'
     end
   end
   resources :users do

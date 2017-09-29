@@ -32,6 +32,18 @@ class DashboardController < ApplicationController
         end
         @reservations['checkedOutHistory'].push(car)
       end
+
+      if AvailabilityRequest.exists?(email: @user['email_id'])
+        availability_requests = AvailabilityRequest.where(email: @user['email_id'])
+          availability_requests.find_each do |availability_request|
+          unless @reservations['requestedCars']
+            @reservations['requestedCars'] = Array.new
+          end
+          car = Car.find(availability_request.license)
+          @reservations['requestedCars'].push(car)
+        end
+      end
+
     end
   end
 

@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170927230428) do
+ActiveRecord::Schema.define(version: 20170929145501) do
+
+  create_table "availability_requests", force: :cascade do |t|
+    t.string "email"
+    t.string "license"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "car_checkouts", force: :cascade do |t|
     t.string "license"

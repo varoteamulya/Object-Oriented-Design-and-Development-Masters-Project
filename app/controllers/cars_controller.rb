@@ -46,6 +46,28 @@ class CarsController < ApplicationController
     redirect_to dashboard_path
   end
 
+  def cancel_booking
+    check_user_context
+
+    puts 'here in cancel booking', params
+    @car = Car.find(params[:car])
+    @car.update_column(:availability, "Available")
+    @car.save
+
+    if AvailabilityRequest.exists?(license: @car.license)
+      availability_requests = AvailabilityRequest.where(license: @car.license)
+      availability_requests.find_each do |availability_request|
+        UserNotifierMailer.send_car_availability_email(availability_request.email).deliver_now
+      end
+    end
+
+    @checkout = CarCheckout.where(:license => @car.license, :checkout_by => @user_context['email_id'], :status => 'booked').take
+    @checkout.update_column(:status, 'canceled')
+    @checkout.save
+
+    redirect_to dashboard_path
+  end
+
   # GET /cars/1
   # GET /cars/1.json
   def book_car
@@ -133,6 +155,13 @@ class CarsController < ApplicationController
     @car.update_column(:availability, "Available")
     @car.save
 
+    if AvailabilityRequest.exists?(license: @car.license)
+      availability_requests = AvailabilityRequest.where(license: @car.license)
+      availability_requests.find_each do |availability_request|
+        UserNotifierMailer.send_car_availability_email(availability_request.email).deliver_now
+      end
+    end
+
     @checkout = CarCheckout.where(:license => @car.license, :checkout_by => @user_context['email_id'], :status => 'checked out').take
     @checkout.update_column(:status, 'returned')
     @checkout.save
@@ -141,7 +170,14 @@ class CarsController < ApplicationController
   end
 
   def register_for_email
-    @car = Car.find(params[:car])
+    availability_requests = AvailabilityRequest.new(
+           :email => @user_context['email_id'],
+           :license => params[:car]
+    )
+
+    availability_requests.save
+
+    redirect_to dashboard_path
 
     #add user req to db
   end

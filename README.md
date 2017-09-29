@@ -16,6 +16,7 @@ Superadmins can add admins and superadmins. They perform everything that an admi
 
 Email:
 The customer gets an email when the car becomes available.
+Do provide correct email id for this feature to work.
 
 Suggestion:
 The cutsomer can suggest to include some cars by providing manufacturer and model information.

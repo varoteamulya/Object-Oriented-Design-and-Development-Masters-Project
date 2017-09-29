@@ -5,8 +5,9 @@
       <th>License Number</th>
       <th>Manufacturer</th>
       <th>Model Number</th>
-
-      <% if car_status == 'booked' %>
+      <% if car_status == 'requested' %>
+          <th>Availability</th>
+      <% elsif car_status == 'booked' %>
           <th>Booked on</th>
           <th>Booking expiring at</th>
           <th colspan="2">Options</th>
@@ -27,16 +28,20 @@
           <td><%= link_to car.license, car %></td>
           <td><%= car.manufacturer %></td>
           <td><%= car.model %></td>
-          <td><%= car.time_from %></td>
-          <% if car.status == 'booked' %>
-              <td><%= car.time_to %></td>
-              <td><%= link_to 'Checkout', car %></td>
-              <td><%= link_to 'Cancel booking', car %></td>
-          <% elsif car.status == 'checked out' %>
-              <td><%= car.time_to %></td>
-              <td><%= link_to 'Return', {:controller => "cars", :action => "return_car", :car => car.license } %><td>
-          <% elsif car.status == 'returned' %>
-              <td><%= car.updated_at %></td>
+          <% if car_status == 'requested' %>
+            <td><%= car.availability %></td>
+          <% else %>
+            <td><%= car.time_from %></td>
+            <% if car.status == 'booked' %>
+                <td><%= car.time_to %></td>
+                <td><%= link_to 'Checkout', car %></td>
+                <td><%= link_to 'Cancel booking', {:controller => "cars", :action => "cancel_booking", :car => car.license } %></td>
+            <% elsif car.status == 'checked out' %>
+                <td><%= car.time_to %></td>
+                <td><%= link_to 'Return', {:controller => "cars", :action => "return_car", :car => car.license } %><td>
+            <% elsif car.status == 'returned' %>
+                <td><%= car.updated_at %></td>
+            <% end %>
           <% end %>
         </tr>
     <% end %>
