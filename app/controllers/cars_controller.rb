@@ -58,6 +58,7 @@ class CarsController < ApplicationController
       availability_requests = AvailabilityRequest.where(license: @car.license)
       availability_requests.find_each do |availability_request|
         UserNotifierMailer.send_car_availability_email(availability_request.email).deliver_now
+        availability_request.destroy
       end
     end
 
@@ -159,6 +160,7 @@ class CarsController < ApplicationController
       availability_requests = AvailabilityRequest.where(license: @car.license)
       availability_requests.find_each do |availability_request|
         UserNotifierMailer.send_car_availability_email(availability_request.email).deliver_now
+        availability_request.destroy
       end
     end
 
