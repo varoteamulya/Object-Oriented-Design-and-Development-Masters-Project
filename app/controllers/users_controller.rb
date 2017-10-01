@@ -29,6 +29,13 @@ class UsersController < ApplicationController
     render action: 'show'
   end
 
+  def delete_user
+    @user = User.find(params[:email_id])
+    @user.destroy
+
+    redirect_to dashboard_path
+  end
+
   # GET /users/new
   def new
     check_user
