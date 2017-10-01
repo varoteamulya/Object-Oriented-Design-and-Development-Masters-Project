@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20170929145501) do
     t.datetime "updated_at", null: false
     t.datetime "time_from"
     t.datetime "time_to"
+    t.string "status"
   end
 
   create_table "car_status", force: :cascade do |t|

@@ -29,38 +29,44 @@
 
             <% if car.availability == 'Booked' %>
                 <td><%= 'Car is booked' %></td>
-                <% checkout_details = CarCheckout.exists?(license: car.license, checkout_by: user['email_id'], status: 'booked' ) %>
-                <% if checkout_details %>
-                    <td><%= link_to 'Checkout', car %></td>
-                <% else %>
-                    <td><%= link_to 'Register for email upon availability', {:controller => "cars", :action => "register_for_email", :car => car.license } %></td>
+                <% if @user_context %>
+                  <% checkout_details = CarCheckout.exists?(license: car.license, checkout_by: user['email_id'], status: 'booked' ) %>
+                  <% if checkout_details %>
+                      <td><%= link_to 'Checkout', car %></td>
+                  <% else %>
+                      <td><%= link_to 'Register for email upon availability', {:controller => "cars", :action => "register_for_email", :car => car.license } %></td>
+                  <% end %>
                 <% end %>
             <% elsif car.availability == 'Checked_Out' %>
-                <% checkout_details = CarCheckout.exists?(license: car.license, checkout_by: user['email_id'], status: 'checked out' ) %>
+                <% if @user_context %>
+                  <% checkout_details = CarCheckout.exists?(license: car.license, checkout_by: user['email_id'], status: 'checked out' ) %>
 
-                <td><%= 'Car is Checked Out' %></td>
-                <td>
-                  <%= link_to 'Return', {:controller => "cars", :action => "return_car", :car => car.license } %><br/>
-                  <% unless checkout_details %>
-                    <%= link_to 'Register for email upon availability', {:controller => "cars", :action => "register_for_email", :car => car.license } %>
-                  <% end %>
-                </td>
+                  <td><%= 'Car is Checked Out' %></td>
+                  <td>
+                    <%= link_to 'Return', {:controller => "cars", :action => "return_car", :car => car.license } %><br/>
+                    <% unless checkout_details %>
+                      <%= link_to 'Register for email upon availability', {:controller => "cars", :action => "register_for_email", :car => car.license } %>
+                    <% end %>
+                  </td>
+                <% end %>
             <% else %>
                 <% if @user_context && @user_context['u_type'] == 3 %>
                   <td><%= link_to 'Book', {:controller => "cars", :action => "book_car", :car => car.license } %></td>
                 <% end %>
             <% end %>
             <% if @user_context %>
-                <% unless @user_context['u_type'] = 3 %>
-                  <% unless car.availability == 'Checked_Out' %>
+                <% unless @user_context['u_type'] == 3 %>
+                  <% if car.availability == 'Availability'%>
                     <td><%= link_to 'Edit', edit_car_path(car) %></td>
                     <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
                   <% end %>
                 <% end %>
             <% else %>
+                <% if car.availability == 'Available' %>
                 <td><%= link_to 'Edit', edit_car_path(car) %></td>
                 <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-          <% end %>
+                <% end %>
+            <% end %>
           </tr>
       <% end %>
       </tbody>

@@ -70,8 +70,13 @@ class DashboardController < ApplicationController
     redirect_to dashboard_path
   end
 
-  def suggest_car
+  def suggested_car
+     @suggestion = Suggestion.all;
+  end
 
+
+  def suggest_car
+    @suggestion = Suggestion.all;
   end
 
   def new_suggest_car
