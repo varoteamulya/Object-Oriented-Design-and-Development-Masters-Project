@@ -46,16 +46,21 @@
                   <% end %>
                 </td>
             <% else %>
-                <% if @user_context['u_type'] == 3 %>
+                <% if @user_context && @user_context['u_type'] == 3 %>
                   <td><%= link_to 'Book', {:controller => "cars", :action => "book_car", :car => car.license } %></td>
                 <% end %>
             <% end %>
-            <% unless @user_context['u_type'] == 3 %>
-                <% unless car.availability == 'Checked_Out' %>
-                  <td><%= link_to 'Edit', edit_car_path(car) %></td>
-                  <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <% if @user_context %>
+                <% unless @user_context['u_type'] = 3 %>
+                  <% unless car.availability == 'Checked_Out' %>
+                    <td><%= link_to 'Edit', edit_car_path(car) %></td>
+                    <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                  <% end %>
                 <% end %>
-            <% end %>
+            <% else %>
+                <td><%= link_to 'Edit', edit_car_path(car) %></td>
+                <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% end %>
           </tr>
       <% end %>
       </tbody>

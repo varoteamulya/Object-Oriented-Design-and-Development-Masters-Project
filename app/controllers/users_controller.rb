@@ -16,6 +16,67 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+
+  end
+
+
+  def edit_user
+    @user = User.find(params[:email_id])
+    @user_edit = UserEdit.new(:email_id => @user['email_id'], :name => @user['name'], :password => @user['password'])
+    render action: 'edit'
+  end
+
+  def view_user
+    @user = User.find(params[:email_id])
+    session[:user_context] = User.find(params[:email_id])
+    if @user['u_type'] == 3
+      @cars = Car.joins('INNER JOIN car_checkouts ON car_checkouts.license = cars.license where car_checkouts.checkout_by = \''+@user['email_id']+'\' and car_checkouts.status=\'booked\'').select("cars.*, car_checkouts.*")
+      @reservations = {}
+      @cars.each do |car|
+        if car.availability == 'Booked'
+          unless @reservations['reservedCars']
+            @reservations['reservedCars'] = Array.new
+          end
+          @reservations['reservedCars'].push(car)
+        end
+      end
+      carsHistory = Car.joins('INNER JOIN car_checkouts ON car_checkouts.license = cars.license where car_checkouts.checkout_by = \''+@user['email_id']+'\' and car_checkouts.status=\'checked out\'').select("cars.*, car_checkouts.*")
+      carsHistory.each do |car|
+        unless @reservations['checkedOutCars']
+          @reservations['checkedOutCars'] = Array.new
+        end
+        @reservations['checkedOutCars'].push(car)
+      end
+
+      carsHistory = Car.joins('INNER JOIN car_checkouts ON car_checkouts.license = cars.license where car_checkouts.checkout_by = \''+@user['email_id']+'\' and car_checkouts.status=\'returned\'').select("cars.*, car_checkouts.*")
+
+      carsHistory.each do |car|
+        unless @reservations['checkedOutHistory']
+          @reservations['checkedOutHistory'] = Array.new
+        end
+        @reservations['checkedOutHistory'].push(car)
+      end
+
+      if AvailabilityRequest.exists?(email: @user['email_id'])
+        availability_requests = AvailabilityRequest.where(email: @user['email_id'])
+        availability_requests.find_each do |availability_request|
+          unless @reservations['requestedCars']
+            @reservations['requestedCars'] = Array.new
+          end
+          car = Car.find(availability_request.license)
+          @reservations['requestedCars'].push(car)
+        end
+      end
+    end
+
+    render action: 'show'
+  end
+
+  def delete_user
+    @user = User.find(params[:email_id])
+    @user.destroy
+
+    redirect_to dashboard_path
   end
 
   # GET /users/new
@@ -82,6 +143,16 @@ class UsersController < ApplicationController
       @user = session[:current_user]
       unless @user
           redirect_to home_path
+      end
+    end
+
+    def check_user_context
+      if session[:user_context]
+        @user_context = session[:user_context]
+      else
+        if @user['u_type'] == 3
+          @user_context = @user
+        end
       end
     end
 

@@ -11,6 +11,16 @@
     </div>
   <% end %>
 
+    <%
+      if @car
+        @options_for_style = [
+            { "name" => "Sedan","id" => "Sedan"},
+            { "name" => "SUV","id" => "SUV" },
+            { "name" => "Coupe","id" => "Coupe"}
+        ]
+      end
+    %>
+
   <div class="field">
     <%= form.label :license %>
     <%= form.text_field :license, id: :car_License %>
@@ -28,14 +38,14 @@
   </div>
 
   <div class="field">
-    <%= form.label :hourly %>
+    <%= form.label :Hourlyrate %>
     <%= form.text_field :hourly, id: :car_Hourly %>
   </div>
 
 
   <div class="field">
-    <%= form.label :style %>
-    <%= form.text_field :style, id: :car_Style %>
+    <%= form.label :sytle %>
+    <%= form.select :style, options_for_select(@options_for_style.map {|p| [ p['name'], p['id'] ] }) %>
   </div>
 
   <div class="field">
