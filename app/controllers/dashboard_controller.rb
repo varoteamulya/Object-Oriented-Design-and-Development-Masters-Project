@@ -71,7 +71,8 @@ class DashboardController < ApplicationController
   end
 
   def suggested_car
-     @suggestion = Suggestion.all;
+    @car = Car.all;
+    @suggestion = Suggestion.all;
   end
 
 
