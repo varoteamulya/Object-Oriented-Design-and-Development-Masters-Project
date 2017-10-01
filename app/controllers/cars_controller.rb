@@ -75,24 +75,38 @@ class CarsController < ApplicationController
     check_user_context
     @car = Car.find(params[:car])
 
-    @checkout = CarCheckout.new(
-        :license => @car['license'],
-        :checkout_by => @user_context['email_id'],
-        :checkout_at => DateTime.now,
-        :status => 'booked',
-        :time_to => DateTime.now + 30.minutes,
-        :time_from => DateTime.now
-    )
+    unless check_already_booked
 
-    @checkout.save
+      @checkout = CarCheckout.new(
+          :license => @car['license'],
+          :checkout_by => @user_context['email_id'],
+          :checkout_at => DateTime.now,
+          :status => 'booked',
+          :time_to => DateTime.now + 30.minutes,
+          :time_from => DateTime.now
+      )
 
-    @car.update_column(:availability, "Booked")
-    @car.save
+      @checkout.save
 
-    #start cron job
-    CarStatusResetJob.set(wait: 30.minutes).perform_later(@car, @checkout)
+      @car.update_column(:availability, "Booked")
+      @car.save
 
-    redirect_to dashboard_path
+      #start cron job
+      CarStatusResetJob.set(wait: 30.minutes).perform_later(@car, @checkout)
+
+      redirect_to dashboard_path
+
+    else
+      redirect_to cars_path, notice: 'Sorry! You have already booked/checked out a car.'
+    end
+
+  end
+
+  def check_already_booked
+    if CarCheckout.exists?(checkout_by: @user_context['email_id'], status: ["checked out", "booked"])
+      return true;
+    end
+    return false;
   end
 
   def checkout
@@ -110,40 +124,40 @@ class CarsController < ApplicationController
 
     car_checking_out = car_checkout
 
-    puts car_checking_out
+      puts car_checking_out
 
-    @checkout = CarCheckout.new(
-                               :time_from => car_checking_out['time_from'],
-                               :time_to => car_checking_out['time_to'],
-                               :license => car_checking_out['license'],
-                               :checkout_by => car_checking_out['checkout_by'],
-                               :checkout_at => car_checking_out['time_from'],
-                               :status => 'checked out'
-                )
+      @checkout = CarCheckout.new(
+                                 :time_from => car_checking_out['time_from'],
+                                 :time_to => car_checking_out['time_to'],
+                                 :license => car_checking_out['license'],
+                                 :checkout_by => car_checking_out['checkout_by'],
+                                 :checkout_at => car_checking_out['time_from'],
+                                 :status => 'checked out'
+                  )
 
-    set_user
-    @car = Car.find(@checkout.license)
+      set_user
+      @car = Car.find(@checkout.license)
 
-    if @checkout.valid?
-      puts 'valid'
+      if @checkout.valid?
+        puts 'valid'
 
-      @checkout = CarCheckout.where(:license => @car.license, :checkout_by => @user_context['email_id'], :status => 'booked').take
+        @checkout = CarCheckout.where(:license => @car.license, :checkout_by => @user_context['email_id'], :status => 'booked').take
 
-      @checkout.update_column(:status, 'checked out')
-      @checkout.update_column(:time_from, car_checking_out['time_from'])
-      @checkout.update_column(:time_to, car_checking_out['time_to'])
-      @checkout.update_column(:checkout_at, car_checking_out['time_from'])
+        @checkout.update_column(:status, 'checked out')
+        @checkout.update_column(:time_from, car_checking_out['time_from'])
+        @checkout.update_column(:time_to, car_checking_out['time_to'])
+        @checkout.update_column(:checkout_at, car_checking_out['time_from'])
 
-      @checkout.save
+        @checkout.save
 
-      @car.update_column(:availability, "Checked_Out")
-      @car.save
+        @car.update_column(:availability, "Checked_Out")
+        @car.save
 
-      redirect_to dashboard_path
-    else
-      puts 'invalid'
-      render action: 'checkout'
-    end
+        redirect_to dashboard_path
+      else
+        puts 'invalid'
+        render action: 'checkout'
+      end
 
 
   end
