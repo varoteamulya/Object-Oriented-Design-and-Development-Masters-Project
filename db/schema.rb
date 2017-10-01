@@ -26,7 +26,6 @@ ActiveRecord::Schema.define(version: 20170929145501) do
     t.datetime "checkout_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status"
     t.datetime "time_from"
     t.datetime "time_to"
   end
@@ -82,7 +81,7 @@ ActiveRecord::Schema.define(version: 20170929145501) do
     t.text "email_id"
     t.text "name"
     t.text "password"
-    t.integer "u_type"
+    t.integer "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
