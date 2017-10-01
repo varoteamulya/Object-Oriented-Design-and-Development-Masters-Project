@@ -37,8 +37,15 @@ class CarsController < ApplicationController
     @car = Car.new
   end
 
+  def new_suggested
+    suggestion = filter_suggested_car_fields
+    @car = Car.new
+    @car['manufacturer'] = suggestion[:manufacturer]
+    @car['model'] = suggestion[:model]
+  end
   # GET /cars/1/edit
   def edit
+
   end
 
   def cancel_reservation
@@ -271,6 +278,13 @@ class CarsController < ApplicationController
         end
       end
     end
+
+
+  def filter_suggested_car_fields
+    params.require(:values)
+  end
+
+
 
   def car_checkout
     params.require(:car_checkout).permit(:time_from, :time_to, :checkout_by, :license)

@@ -28,7 +28,6 @@ ActiveRecord::Schema.define(version: 20171001182825) do
     t.datetime "updated_at", null: false
     t.datetime "time_from"
     t.datetime "time_to"
-    t.string "status"
   end
 
   create_table "car_status", force: :cascade do |t|
@@ -83,7 +82,7 @@ ActiveRecord::Schema.define(version: 20171001182825) do
     t.text "email_id"
     t.text "name"
     t.text "password"
-    t.integer "u_type"
+    t.integer "U_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

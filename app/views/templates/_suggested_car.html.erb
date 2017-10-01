@@ -1,3 +1,4 @@
+
 <% if @suggestion.length == 0 %>
     <div class="message-div">There is no car in the system</div>
 <% else %>
@@ -16,8 +17,8 @@
         <tbody>
         <% @suggestion.each do |suggest| %>
             <tr>
+              <td><%= link_to suggest.manufacturer, {:controller => "cars", :action => "new_suggested", :values => {:manufacturer => suggest.manufacturer, :model => suggest.model}} %></td>
 
-              <td><%= suggest.manufacturer %></td>
               <td><%= suggest.model %></td>
               <td><%= suggest.suggested_by %></td>
         <% end %>
@@ -25,3 +26,7 @@
       </table>
     </div>
 <% end %>
+<%= link_to 'Back', dashboard_path %>
+
+
+

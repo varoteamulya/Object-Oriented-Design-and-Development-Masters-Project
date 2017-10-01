@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       get 'return_car'
       get 'register_for_email'
       get 'cancel_booking'
+      get 'new_suggested'
     end
   end
   resources :users do
