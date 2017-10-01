@@ -16,8 +16,8 @@
         <tbody>
         <% @suggestion.each do |suggest| %>
             <tr>
+              <td><%= link_to suggest.manufacturer, {:controller => "cars", :action => "new_suggested", :values => {:manufacturer => suggest.manufacturer, :model => suggest.model}} %></td>
 
-              <td><%= suggest.manufacturer %></td>
               <td><%= suggest.model %></td>
               <td><%= suggest.suggested_by %></td>
         <% end %>
