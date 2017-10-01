@@ -18,7 +18,7 @@
     <tbody>
     <% @users.each do |user| %>
         <tr>
-            <td><%= link_to user.email_id, user %></td>
+            <td><%= link_to user.email_id, view_user_users_path(email_id: user) %></td>
             <td><%= user.name %></td>
             <% if user.u_type.to_i == 1 %>
               <td>Super Admin</td>

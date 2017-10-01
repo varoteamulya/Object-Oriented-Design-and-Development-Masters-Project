@@ -18,6 +18,17 @@ class UsersController < ApplicationController
   def show
   end
 
+  def edit_user
+    @user = User.find(params[:email_id])
+    @user_edit = UserEdit.new(:email_id => @user['email_id'], :name => @user['name'], :password => @user['password'])
+    render action: 'edit'
+  end
+
+  def view_user
+    @user = User.find(params[:email_id])
+    render action: 'show'
+  end
+
   # GET /users/new
   def new
     check_user

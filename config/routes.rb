@@ -12,6 +12,8 @@ Rails.application.routes.draw do
     collection do
       get 'new_superadmin'
       get 'view_superadmin'
+      get 'view_user'
+      get 'edit_user'
     end
   end
   resources :sessions, only: [:new, :create, :destroy]
