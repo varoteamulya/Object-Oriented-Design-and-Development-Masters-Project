@@ -19,16 +19,8 @@ ActiveRecord::Schema.define(version: 20171001182825) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "car_checkouts", force: :cascade do |t|
-    t.string "license"
-    t.string "checkout_by"
-    t.integer "duration"
-    t.datetime "checkout_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "time_from"
-    t.datetime "time_to"
-  end
+# Could not dump table "car_checkouts" because of following StandardError
+#   Unknown type 'STRING' for column 'status'
 
   create_table "car_status", force: :cascade do |t|
     t.string "status"
@@ -82,7 +74,7 @@ ActiveRecord::Schema.define(version: 20171001182825) do
     t.text "email_id"
     t.text "name"
     t.text "password"
-    t.integer "U_type"
+    t.integer "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
