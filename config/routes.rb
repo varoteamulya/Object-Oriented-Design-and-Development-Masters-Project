@@ -19,9 +19,11 @@ Rails.application.routes.draw do
   end
   resources :sessions, only: [:new, :create, :destroy]
 
-  get 'suggest_car', to: 'dashboard#suggest_car'
+  get 'suggest_car',  to: 'dashboard#suggest_car'
 
+  get  'suggested_car', to: 'dashboard#suggested_car'
   post 'suggest_car', to: 'dashboard#new_suggest_car'
+  post 'suggested_car', to: 'dashboard#suggested_car'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'home#index'
