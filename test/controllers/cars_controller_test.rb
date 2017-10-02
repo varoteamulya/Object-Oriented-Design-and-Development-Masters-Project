@@ -1,4 +1,5 @@
-require 'test_helper'
+require 'spec/spec_helper'
+require 'spec/rails_helper'
 
 class CarsControllerTest < ActionDispatch::IntegrationTest
   setup do
