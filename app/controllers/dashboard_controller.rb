@@ -45,12 +45,12 @@ class DashboardController < ApplicationController
       end
 
     end
+
   end
 
   def logout
     puts 'here in logout'
     session.clear
-
     redirect_to home_path
   end
 
@@ -97,7 +97,7 @@ class DashboardController < ApplicationController
   end
 
   def user_make_reservation
-    puts params
+
     session[:user_context] = User.find(params[:email_id])
     redirect_to cars_path
   end
@@ -122,4 +122,8 @@ class DashboardController < ApplicationController
     def car_params
       params.require(:car).permit(:license, :Plate, :manufacturer, :model, :hourly, :Rental, :Rate, :style, :location, :availability, :checkout)
     end
+
+
+
+
 end
