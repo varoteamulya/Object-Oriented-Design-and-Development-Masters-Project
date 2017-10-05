@@ -31,7 +31,7 @@ class CarsController < ApplicationController
       puts @user
 
       unless @user['u_type'] == 3
-        @carHistory = Car.joins('INNER JOIN car_checkouts ON car_checkouts.license = cars.license where cars.license = "' + @car['license'] + '"').select("cars.*, car_checkouts.*")
+        @carHistory = Car.joins('INNER JOIN car_checkouts ON car_checkouts.license = cars.license where cars.license = \'' + @car['license'] + '\'').select("cars.*, car_checkouts.*")
         puts @carHistory
       end
 
