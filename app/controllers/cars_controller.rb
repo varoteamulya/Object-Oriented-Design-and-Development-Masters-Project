@@ -29,6 +29,12 @@ class CarsController < ApplicationController
       puts @checkout
       set_user
       puts @user
+
+      unless @user['u_type'] == 3
+        @carHistory = Car.joins('INNER JOIN car_checkouts ON car_checkouts.license = cars.license').select("cars.*, car_checkouts.*")
+        puts @carHistory
+      end
+
     end
   end
 

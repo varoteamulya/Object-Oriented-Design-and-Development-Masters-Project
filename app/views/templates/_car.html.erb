@@ -78,3 +78,12 @@
     <% end %>
   </div>
 </div>
+<div class="row">
+  <% unless @user['u_type'] == 3 %>
+      <br/>
+      <div class="panel panel-info">
+        <div class="panel-heading" style="margin-bottom:15px;"><h4>Car booking history</h4></div>
+    <%= render 'templates/car_checkout_table.html.erb', cars: @carHistory, user: @user , car_status: 'all' %>
+      </div>
+  <% end %>
+</div>

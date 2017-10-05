@@ -25,7 +25,7 @@
                                 <%= link_to 'Checkout', car,  class: "btn btn-primary", role: "button"  %></td>
                                 <%= link_to 'Cancel booking', {:controller => "cars", :action => "cancel_booking", :car => car.license },  class: "btn btn-primary", role: "button"  %>
                             <% else %>
-                                <%= link_to 'Register for email upon availability', {:controller => "cars", :action => "register_for_email", :car => car.license },  class: "btn btn-primary", role: "button" %>
+                                <%= link_to 'Register for notification', {:controller => "cars", :action => "register_for_email", :car => car.license },  class: "btn btn-primary", role: "button" %>
                             <% end %>
                         <% end %>
                     <% elsif car.availability == 'Checked_Out' %>
@@ -34,7 +34,7 @@
                             <div class="alert alert-danger" role="alert"><%= 'Car is Checked Out' %></div>
                             <%= link_to 'Return', {:controller => "cars", :action => "return_car", :car => car.license },  class: "btn btn-primary", role: "button" %><br/>
                             <% unless checkout_details %>
-                                <%= link_to 'Register for email upon availability', {:controller => "cars", :action => "register_for_email", :car => car.license },  class: "btn btn-primary", role: "button" %>
+                                <%= link_to 'Register for notification', {:controller => "cars", :action => "register_for_email", :car => car.license },  class: "btn btn-primary", role: "button" %>
                             <% end %>
                           <% end %>
                     <% else %>

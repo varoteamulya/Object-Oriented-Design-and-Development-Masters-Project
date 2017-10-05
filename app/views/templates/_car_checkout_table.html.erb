@@ -20,6 +20,12 @@
           <th>Checked out on</th>
           <th>Returned on</th>
           <th>Total Charge</th>
+      <% elsif car_status == 'all' %>
+          <th>Checked out / Booked on</th>
+          <th>Checked out / Booked till</th>
+          <th>Current Status</th>
+          <th>Charges</th>
+          <th>Checked out by</th>
       <% end %>
     </tr>
     </thead>
@@ -30,7 +36,13 @@
           <td><%= link_to car.license, car %></td>
           <td><%= car.manufacturer %></td>
           <td><%= car.model %></td>
-          <% if car_status == 'requested' %>
+          <% if car_status == 'all' %>
+              <td><%= car.time_from %></td>
+          <td><%= car.time_to %></td>
+          <td><%= car.status %></td>
+          <td>$<%= car.duration.to_i * car.hourly.to_i %> for <%= car.duration.to_i%> hours</td>
+          <td><%= car.checkout_by %></td>
+          <% elsif car_status == 'requested' %>
             <td><%= car.availability %></td>
           <% else %>
             <td><%= car.time_from %></td>
@@ -45,7 +57,8 @@
             <% elsif car.status == 'returned' %>
                 <td><%= car.updated_at %></td>
                   <td>$<%= car.duration.to_i * car.hourly.to_i %> for <%= car.duration.to_i%> hours</td>
-            <% end %>
+
+              <% end %>
           <% end %>
         </tr>
     <% end %>
