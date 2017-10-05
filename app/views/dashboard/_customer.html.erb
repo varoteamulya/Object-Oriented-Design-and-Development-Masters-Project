@@ -1,31 +1,42 @@
 <div>
 
-  <span class="suggest-car"><%= link_to 'Suggest a car', suggest_car_path %></span>
-
+  <% if isUser == 'yes'
+      userInContext = 'You have'
+   else
+      userInContext = 'This user has'
+   end %>
   <% if reservations.has_key?('requestedCars') %>
-      <h3>Requested Cars</h3>
-      <%= render 'templates/car_checkout_table.html.erb', cars: reservations['requestedCars'], user: user, car_status: 'requested' %>
+      <div class="panel panel-info">
+        <div class="panel-heading">Requested Cars</div>
+        <%= render 'templates/car_checkout_table.html.erb', cars: reservations['requestedCars'], user: user, car_status: 'requested' %>
+      </div>
   <% else %>
-      <div class="message-div">You have not requested any car yet</div>
+      <div class="alert alert-warning" role="alert"><%= userInContext %> not requested any car.</div>
   <% end %>
   <% if reservations.has_key?('reservedCars') %>
-    <h3>Reserved Car</h3>
-    <%= render 'templates/car_checkout_table.html.erb', cars: reservations['reservedCars'], user: user, car_status: 'booked' %>
+      <div class="panel panel-info">
+        <div class="panel-heading">Reserved Car</div>
+        <%= render 'templates/car_checkout_table.html.erb', cars: reservations['reservedCars'], user: user, car_status: 'booked' %>
+      </div>
   <% else %>
-      <div class="message-div">You have not reserved any car yet</div>
+      <div class="alert alert-warning" role="alert"><%= userInContext %> not reserved any car.</div>
   <% end %>
 
   <% if reservations.has_key?('checkedOutCars') %>
-    <h3>Checked-out Car</h3>
-    <%= render 'templates/car_checkout_table.html.erb', cars: reservations['checkedOutCars'], user: user , car_status: 'checked out' %>
+      <div class="panel panel-info">
+        <div class="panel-heading">Checked-out Car</div>
+        <%= render 'templates/car_checkout_table.html.erb', cars: reservations['checkedOutCars'], user: user , car_status: 'checked out' %>
+      </div>
   <% else %>
-    <div class="message-div">You currently have no checked out cars</div>
+    <div class="alert alert-warning" role="alert"><%= userInContext %> not checked out any cars.</div>
   <% end %>
 
   <% if reservations.has_key?('checkedOutHistory') %>
-    <h3>Checked-out history</h3>
-    <%= render 'templates/car_checkout_table.html.erb', cars: reservations['checkedOutHistory'], user: user, car_status: 'returned'%>
+      <div class="panel panel-info">
+        <div class="panel-heading">Checked-out history</div>
+        <%= render 'templates/car_checkout_table.html.erb', cars: reservations['checkedOutHistory'], user: user, car_status: 'returned'%>
+      </div>
   <% else %>
-    <div class="message-div">You have no checked out history</div>
+    <div class="alert alert-warning" role="alert"><%= userInContext %> no checked out history.</div>
   <% end %>
 </div>

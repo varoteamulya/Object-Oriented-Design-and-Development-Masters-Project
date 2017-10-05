@@ -1,26 +1,15 @@
-<%= form_with(model: login, local: true) do |form| %>
+<%= form_with(model: login, local: true, html: {class: "form-sign"}) do |form| %>
     <% if login.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(login.errors.count, "error") %> prohibited this user from being logged:</h2>
-
-          <ul>
-            <% login.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-            <% end %>
-          </ul>
+      <% login.errors.full_messages.each do |message| %>
+        <div class="alert alert-danger" role="alert">
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          <span class="sr-only">Error:</span>
+          <%= message %>
         </div>
+      <% end %>
     <% end %>
-    <div class="field">
-      <%= form.label :email_id %>
-      <%= form.text_field :email_id, id: :user_email_id %>
-    </div>
-
-    <div class="field">
-      <%= form.label :password %>
-      <%= form.password_field :password, id: :user_password %>
-    </div>
-
-    <div class="actions">
-      <%= form.submit 'Login' %>
-    </div>
+    <h2 class="form-sign-header">Please login</h2>
+    <%= form.text_field :email_id, id: :user_email_id, placeholder: 'Email Address', class: 'form-control' %>
+    <%= form.password_field :password, id: :user_password, placeholder: 'Password', class: 'form-control' %>
+    <%= form.submit 'Login', class: 'btn btn-lg btn-primary btn-block button' %>
 <% end %>

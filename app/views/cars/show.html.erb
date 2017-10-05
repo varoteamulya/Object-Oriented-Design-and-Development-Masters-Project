@@ -1,21 +1,13 @@
 <p id="notice"><%= notice %></p>
 
 <% if @user_context %>
-    <p>
+    <div class="alert alert-success">
       <span class="span-label"><strong>Booking for:</strong></span>
       <span class="span-value"><%= @user_context['email_id'] %></span>
       <%= link_to 'Abort booking', cancel_reservation_path %>
-    </p>
+    </div>
 <% end %>
 
 <div class="show-div">
-  <div class="div-header">
-    <h1>Car</h1>
-    <% unless @user['u_type'] == 3 %>
-        <% unless @user_context %>
-          <%= link_to 'Edit', edit_car_path(@car) %>
-        <% end %>
-    <% end %>
-  </div>
   <%= render 'templates/car.html.erb', car: @car, checkout: @checkout %>
 </div>

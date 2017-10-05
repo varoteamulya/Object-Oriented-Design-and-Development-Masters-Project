@@ -1,10 +1,19 @@
 <p id="notice"><%= notice %></p>
 
 <div class="show-div">
-  <div class="div-header">
-    <h1>Show</h1>
-    <%= link_to 'Back', users_path %>
-  </div>
+  <%= link_to 'Home', dashboard_path,  class: "btn btn-primary", role: "button", style: 'margin-top: 15px; margin-bottom: 25px;'  %>
+  <%= link_to 'Edit', edit_user_users_path(email_id: @user),  class: "btn btn-primary", role: "button", style: 'margin-top: 15px; margin-bottom: 25px;'  %>
+
+  <% if @user['u_type'] == 3 %>
+    <% unless @reservations['checkedOutCars'] %>
+      <td><%= link_to 'Delete', delete_user_users_path(email_id: @user), data: { confirm: 'Are you sure?' },  class: "btn btn-primary", role: "button", style: 'margin-top: 15px; margin-bottom: 25px;' %></td>
+    <% else %>
+          <div  class="btn" role="button" style="margin-top: 15px; margin-bottom: 25px;border: 1px solid gray; background: lightgray;">Delete</div>
+      <% end %>
+  <% else %>
+      <td><%= link_to 'Delete', delete_user_users_path(email_id: @user), data: { confirm: 'Are you sure?' },  class: "btn btn-primary", role: "button", style: 'margin-top: 15px; margin-bottom: 25px;' %></td>
+  <% end %>
+</div>
   <p>
     <span class="span-label"><strong>Email:</strong></span>
     <span class="span-value"><%= @user.email_id %></span>
@@ -20,34 +29,11 @@
     <span class="span-value"><%= @user.u_type %></span>
   </p>
 
-  <span class="span-button"><%= link_to 'Edit', edit_user_users_path(email_id: @user) %></span>
+
 </div>
 
-<% if @user['u_type'] == 3 %>
-  <% if @reservations.has_key?('requestedCars') %>
-      <h3>Requested Cars</h3>
-      <%= render 'templates/car_checkout_table.html.erb', cars: @reservations['requestedCars'], user: @user, car_status: 'requested' %>
-  <% else %>
-      <div class="message-div"><%= @user['email_id']%> has not requested any car yet</div>
+<div class="container container-fluid">
+  <% if @user['u_type'] == 3 %>
+      <%= render 'dashboard/customer.html.erb', reservations: @reservations, user: @user_context, isUser: 'no' %>
   <% end %>
-  <% if @reservations.has_key?('reservedCars') %>
-      <h3>Reserved Car</h3>
-      <%= render 'templates/car_checkout_table.html.erb', cars: @reservations['reservedCars'], user: @user, car_status: 'booked' %>
-  <% else %>
-      <div class="message-div"><%= @user['email_id']%> has not reserved any car yet</div>
-  <% end %>
-
-  <% if @reservations.has_key?('checkedOutCars') %>
-      <h3>Checked-out Car</h3>
-      <%= render 'templates/car_checkout_table.html.erb', cars: @reservations['checkedOutCars'], user: @user , car_status: 'checked out' %>
-  <% else %>
-      <div class="message-div"><%= @user['email_id']%> currently has no checked out cars</div>
-  <% end %>
-
-  <% if @reservations.has_key?('checkedOutHistory') %>
-      <h3>Checked-out history</h3>
-      <%= render 'templates/car_checkout_table.html.erb', cars: @reservations['checkedOutHistory'], user: @user, car_status: 'returned'%>
-  <% else %>
-      <div class="message-div"><%= @user['email_id']%> has no checked out history</div>
-  <% end %>
-<% end %>
+</div>

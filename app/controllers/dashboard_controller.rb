@@ -67,7 +67,9 @@ class DashboardController < ApplicationController
     @user.update_column(:password, edited_user['password'])
     @user.save
 
-    redirect_to dashboard_path
+    session[:current_user] = @user
+
+    redirect_to dashboard_path, {notice: 'You have successfully updated your profile.'}
   end
 
   def suggested_car
@@ -114,7 +116,7 @@ class DashboardController < ApplicationController
     end
 
     def filter_edit_user_fields
-      params.require(:user_edit).permit(:email_id, :name)
+      params.require(:user_edit).permit(:email_id, :name, :password)
     end
 
     def car_params
