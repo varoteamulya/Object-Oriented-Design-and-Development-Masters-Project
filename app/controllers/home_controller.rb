@@ -94,7 +94,7 @@ class HomeController < ApplicationController
   def set_user
     @user = session[:current_user]
     if @user
-      unless params['commit'] == "new"
+      unless params['commit'] == "Create new user"
         redirect_to dashboard_path
       else
         @action = 'new'

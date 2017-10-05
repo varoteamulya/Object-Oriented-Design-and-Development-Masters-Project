@@ -10,8 +10,10 @@
     <% else %>
           <div  class="btn" role="button" style="margin-top: 15px; margin-bottom: 25px;border: 1px solid gray; background: lightgray;">Delete</div>
       <% end %>
-  <% else %>
+  <% elsif @user['u_type'] == 2 %>
       <td><%= link_to 'Delete', delete_user_users_path(email_id: @user), data: { confirm: 'Are you sure?' },  class: "btn btn-primary", role: "button", style: 'margin-top: 15px; margin-bottom: 25px;' %></td>
+  <% else %>
+      <div  class="btn" role="button" style="margin-top: 15px; margin-bottom: 25px;border: 1px solid gray; background: lightgray;">Delete</div>
   <% end %>
 </div>
   <p>

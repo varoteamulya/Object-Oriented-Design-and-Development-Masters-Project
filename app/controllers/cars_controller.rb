@@ -165,8 +165,9 @@ class CarsController < ApplicationController
 
           puts car_checking_out
 
-          checkout_at = DateTime.parse(car_checking_out[:time_from]).getutc
+          checkout_at = car_checking_out[:time_from].to_time
           time_to = checkout_at + car_checking_out['duration'].to_i.hours
+
           @checkout = CarCheckout.new(
               :time_from => checkout_at,
               :time_to => time_to,
@@ -184,7 +185,7 @@ class CarsController < ApplicationController
           @car.save
 
           # run a background job to fire email
-          #CarStatusResetJob.set(wait_until: time_to).perform_later(@car, @checkout)
+          CarStatusResetJob.set(wait_until: checkout_at + 30.minutes).perform_later(@car, @checkout)
 
           redirect_to dashboard_path
         end
