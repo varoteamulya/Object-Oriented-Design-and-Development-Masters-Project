@@ -32,8 +32,10 @@
                           <% if @user_context %>
                             <% checkout_details = CarCheckout.exists?(license: car.license, checkout_by: @user_context['email_id'], status: 'checked out' ) %>
                             <div class="alert alert-danger" role="alert"><%= 'Car is Checked Out' %></div>
-                            <%= link_to 'Return', {:controller => "cars", :action => "return_car", :car => car.license },  class: "btn btn-primary", role: "button" %><br/>
-                            <% unless checkout_details %>
+
+                            <% if checkout_details %>
+                                <%= link_to 'Return', {:controller => "cars", :action => "return_car", :car => car.license },  class: "btn btn-primary", role: "button" %><br/>
+                            <% else %>
                                 <%= link_to 'Register for notification', {:controller => "cars", :action => "register_for_email", :car => car.license },  class: "btn btn-primary", role: "button" %>
                             <% end %>
                           <% end %>
