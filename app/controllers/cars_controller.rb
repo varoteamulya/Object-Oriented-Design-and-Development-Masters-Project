@@ -123,120 +123,125 @@ class CarsController < ApplicationController
   end
 
   def checkout
-    check_user_context
+
     @car = Car.find(params[:car])
 
-    unless @checkout
-      @checkout = CarCheckout.new(:license => @car['license'], :checkout_by => @user_context['email_id'])
-    end
-    puts @car
+      unless @checkout
+        @checkout = CarCheckout.new(:license => @car['license'], :checkout_by => @user_context['email_id'])
+      end
+      puts @car
 
-    if params[:motive]
-      puts 'it is for instant checkout'
-      @checkout = CarCheckout.where(:license => @car.license, :checkout_by => @user_context['email_id'], :status => 'booked').take
-      @checkout.update_column(:status, 'checked out')
-      @checkout.save
+      if params[:motive]
+        puts 'it is for instant checkout'
+        @checkout = CarCheckout.where(:license => @car.license, :checkout_by => @user_context['email_id'], :status => 'booked').take
+        @checkout.update_column(:status, 'checked out')
+        @checkout.save
 
-      @car.update_column(:availability, "Checked_Out")
-      @car.save
-    end
+        @car.update_column(:availability, "Checked_Out")
+        @car.save
+      end
 
   end
 
+
   def do_checkout
 
-    if params[:reserve]
-      puts 'reserving car'
-      car_checking_out = params[:car_checkout]
-      puts car_checking_out[:time_from]
+    unless check_already_booked
 
-      check_user_context
-      @car = Car.find(car_checking_out[:license])
+      if params[:reserve]
+        puts 'reserving car'
+        car_checking_out = params[:car_checkout]
+        puts car_checking_out[:time_from]
 
-      @checkout = CarCheckout.new(:license => @car['license'], :checkout_by => @user_context['email_id'])
-      if car_checking_out[:time_from] == ""
-        @checkout.errors.add(:time_from, 'cannot be empty')
-        render action: 'checkout'
-      else
-        car_checking_out = car_checkout
+        check_user_context
+        @car = Car.find(car_checking_out[:license])
 
-        puts car_checking_out
+        @checkout = CarCheckout.new(:license => @car['license'], :checkout_by => @user_context['email_id'])
+        if car_checking_out[:time_from] == ""
+          @checkout.errors.add(:time_from, 'cannot be empty')
+          render action: 'checkout'
+        else
+          car_checking_out = car_checkout
 
-        checkout_at = DateTime.parse(car_checking_out[:time_from]).getutc
-        time_to = checkout_at + car_checking_out['duration'].to_i.hours
-        @checkout = CarCheckout.new(
-            :time_from => checkout_at,
-            :time_to => time_to,
-            :license => car_checking_out['license'],
-            :checkout_by => car_checking_out['checkout_by'],
-            :checkout_at => checkout_at,
-            :status => 'booked',
-            :duration => car_checking_out['duration'].to_i
-        )
+          puts car_checking_out
 
-        @car = Car.find(@checkout.license)
-        @checkout.save
+          checkout_at = DateTime.parse(car_checking_out[:time_from]).getutc
+          time_to = checkout_at + car_checking_out['duration'].to_i.hours
+          @checkout = CarCheckout.new(
+              :time_from => checkout_at,
+              :time_to => time_to,
+              :license => car_checking_out['license'],
+              :checkout_by => car_checking_out['checkout_by'],
+              :checkout_at => checkout_at,
+              :status => 'booked',
+              :duration => car_checking_out['duration'].to_i
+          )
 
-        @car.update_column(:availability, "Booked")
-        @car.save
-
-        # run a background job to fire email
-        #CarStatusResetJob.set(wait_until: time_to).perform_later(@car, @checkout)
-
-        redirect_to dashboard_path
-      end
-
-    else
-
-      car_checking_out = car_checkout
-
-        puts car_checking_out
-
-        checkout_at = DateTime.now
-        time_to = checkout_at + car_checking_out['duration'].to_i.hours
-        @checkout = CarCheckout.new(
-                                   :time_from => checkout_at,
-                                   :time_to => time_to,
-                                   :license => car_checking_out['license'],
-                                   :checkout_by => @user_context['email_id'],
-                                   :checkout_at => checkout_at,
-                                   :status => 'checked out',
-                                   :duration => car_checking_out['duration'].to_i
-                    )
-
-        set_user
-        @car = Car.find(@checkout.license)
-
-        if @checkout.valid?
-          puts 'valid'
-
-          if CarCheckout.exists?(:license => @car.license, :checkout_by => @user_context['email_id'], :status => 'booked')
-
-            @checkout = CarCheckout.where(:license => @car.license, :checkout_by => @user_context['email_id'], :status => 'booked').take
-            @checkout.update_column(:status, 'checked out')
-            @checkout.update_column(:time_from, checkout_at)
-            @checkout.update_column(:time_to, time_to)
-            @checkout.update_column(:checkout_at, checkout_at)
-            @checkout.update_column(:checkout_at, car_checking_out['duration'].to_i)
-
-          end
-
+          @car = Car.find(@checkout.license)
           @checkout.save
 
-          @car.update_column(:availability, "Checked_Out")
+          @car.update_column(:availability, "Booked")
           @car.save
 
           # run a background job to fire email
-          CarStatusResetJob.set(wait_until: time_to).perform_later(@car, @checkout)
+          #CarStatusResetJob.set(wait_until: time_to).perform_later(@car, @checkout)
 
           redirect_to dashboard_path
-        else
-          puts 'invalid'
-          render action: 'checkout'
         end
 
-    end
+      else
 
+        car_checking_out = car_checkout
+
+          puts car_checking_out
+
+          checkout_at = DateTime.now
+          time_to = checkout_at + car_checking_out['duration'].to_i.hours
+          @checkout = CarCheckout.new(
+                                     :time_from => checkout_at,
+                                     :time_to => time_to,
+                                     :license => car_checking_out['license'],
+                                     :checkout_by => @user_context['email_id'],
+                                     :checkout_at => checkout_at,
+                                     :status => 'checked out',
+                                     :duration => car_checking_out['duration'].to_i
+                      )
+
+          set_user
+          @car = Car.find(@checkout.license)
+
+          if @checkout.valid?
+            puts 'valid'
+
+            if CarCheckout.exists?(:license => @car.license, :checkout_by => @user_context['email_id'], :status => 'booked')
+
+              @checkout = CarCheckout.where(:license => @car.license, :checkout_by => @user_context['email_id'], :status => 'booked').take
+              @checkout.update_column(:status, 'checked out')
+              @checkout.update_column(:time_from, checkout_at)
+              @checkout.update_column(:time_to, time_to)
+              @checkout.update_column(:checkout_at, checkout_at)
+              @checkout.update_column(:checkout_at, car_checking_out['duration'].to_i)
+
+            end
+
+            @checkout.save
+
+            @car.update_column(:availability, "Checked_Out")
+            @car.save
+
+            # run a background job to fire email
+            CarStatusResetJob.set(wait_until: time_to).perform_later(@car, @checkout)
+
+            redirect_to dashboard_path
+          else
+            puts 'invalid'
+            render action: 'checkout'
+          end
+      end
+
+    else
+      redirect_to cars_path, notice: 'Sorry! You have already booked/checked out a car.'
+    end
 
   end
 
