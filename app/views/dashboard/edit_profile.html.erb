@@ -1,6 +1,7 @@
+<% if notice %>
+    <div class="alert alert-danger" id="notice"><%= notice %></div>
+<% end %>
 
-<p id="notice"><%= notice %></p>
-
-<%= link_to 'Back', dashboard_path %>
+<%= link_to 'Back', dashboard_path,  class: "btn btn-primary", role: "button", style: 'margin-top: 15px; margin-bottom: 10px;' %>
 <%= render 'templates/edit_profile.html.erb', user_edit: @user_edit, password_priviledge: 'yes' %>
 

@@ -1,4 +1,6 @@
-<p id="notice"><%= notice %></p>
+<% if notice %>
+    <div class="alert alert-danger" id="notice"><%= notice %></div>
+<% end %>
 
 <%= link_to 'Back', home_path %>
 <%= render 'templates/login_form.html.erb', login: @login %>

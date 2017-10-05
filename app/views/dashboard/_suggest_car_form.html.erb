@@ -1,18 +1,9 @@
-<%= form_with(local: true) do |form| %>
+<%= form_with(local: true, html: {class: "form-sign"}) do |form| %>
 
-    <div class="field">
-      <%= form.label :manufacturer %>
-      <%= form.text_field :manufacturer, id: :suggestion_manufacturer %>
-    </div>
+    <h2 class="form-sign-header">Suggest a car</h2>
+      <%= form.text_field :manufacturer, id: :suggestion_manufacturer, placeholder: 'Manufacturer', class: 'form-control' %>
 
+      <%= form.text_field :model, id: :car_model, placeholder: 'Model Name', class: 'form-control' %>
 
-    <div class="field">
-      <%= form.label :model %>
-      <%= form.text_field :model, id: :car_model %>
-    </div>
-
-
-    <div class="actions">
-      <%= form.submit %>
-    </div>
+      <%= form.submit 'Make suggestion', class: 'btn btn-lg btn-primary btn-block button' %>
 <% end %>
