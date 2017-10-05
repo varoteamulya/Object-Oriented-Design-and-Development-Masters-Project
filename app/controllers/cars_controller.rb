@@ -185,7 +185,7 @@ class CarsController < ApplicationController
           @car.save
 
           # run a background job to fire email
-          CarStatusResetJob.set(wait_until: checkout_at + 30.seconds).perform_later(@car, @checkout)
+          CarStatusResetJob.set(wait_until: checkout_at + 30.minutes).perform_later(@car, @checkout)
 
           redirect_to dashboard_path
         end
