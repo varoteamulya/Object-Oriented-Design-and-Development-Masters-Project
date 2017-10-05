@@ -1,7 +1,4 @@
 <div class="form-div">
-  <div class="div-header">
-    <h3>Enter the Customer's email-id:</h3>
-    <%= link_to 'Back', dashboard_path %>
-  </div>
+    <%= link_to 'Back', dashboard_path,  class: "btn btn-primary", role: "button", style: 'margin-top: 15px; margin-bottom: 10px;' %>
   <%= render 'templates/make_reservation_form.html.erb', users: @users %>
 </div>

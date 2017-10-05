@@ -1,10 +1,11 @@
-<div class="home-div">
-  <h1>Welcome to the Car Rental App</h1>
-  <h4>Now rent your car with ease</h4>
-  <div class="sign-in">
-    <h5>Already a user? <%= link_to 'Login here', login_path %></h5>
-  </div>
-  <div class="sign-up">
-    <h5>Not a user? <%= link_to 'Sign up', sign_up_path(:action => 'Sign up') %></h5>
-  </div>
+<div class="home-div" style="background-image: url('<%= asset_path('bg2.jpg') %>'); background-size: 100%; background-repeat: no-repeat; color:white; opacity:0.9;height: 600px;
+    text-align: right; padding-top: 350px; padding-right: 50px;">
+    <h2>CarRenter</h2>
+    <p style="padding: 10px;
+        background: black;
+        opacity: 0.6; ">Need a Car? You have come to the right place. Now rent your car with ease.</p>
+    <p>
+      <%= link_to 'Already a user? Login here', login_path, class: "btn btn-primary btn-lg" %>
+      <%= link_to 'New? Sign up here!', sign_up_path(:action => 'Sign up'), class: "btn btn-primary btn-lg" %>
+    </p>
 </div>

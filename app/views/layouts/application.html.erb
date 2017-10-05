@@ -10,8 +10,22 @@
   </head>
 
   <body>
-    <div class="header">Car Rental App</div>
-    <div style="padding: 40px;padding-top: 5px;">
+    <nav class="navbar navbar-inverse header">
+      <div class="page-header">
+        <h3>CarRenter <span style="font-size: 12px;font-weight: 100;">Rent a car with ease</span></h3>
+      </div>
+    </nav>
+    <% if @user %>
+      <div class="btn-group" role="group" style="position: absolute;right: 15px;top: 10px;">
+        <button type="button" class="btn btn-default"><span>Logged in as <%= @user['email_id'] %></span></button>
+        <% if @user['u_type'] == 3 %>
+            <button type="button" class="btn btn-default"><span class="suggest-car"><%= link_to 'Suggest a car', suggest_car_path %></span></button>
+        <% end %>
+        <button type="button" class="btn btn-default"><span class="edit-profile"><%= link_to 'Edit profile', edit_profile_path %></span></button>
+        <button type="button" class="btn btn-default"><span class="logout"><%= link_to 'Logout', logout_path %></span></button>
+      </div>
+    <% end %>
+    <div class="container container-fluid">
       <%= yield %>
     </div>
   </body>

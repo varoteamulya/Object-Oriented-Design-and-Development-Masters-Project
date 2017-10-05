@@ -1,43 +1,80 @@
+<div class="row">
+  <div class="col-6">
+    <img src="<%= asset_path( 'car.jpg' ) %>" alt="Car image" style="max-width: 100%;">
+  </div>
+  <div class="col-5">
+    <p>
+      <h3><%= car.manufacturer %>
+        <small><%= car.model %> (<%= car.style %>)</small>
+      </h3>
+    </p>
 
-<p>
-  <span class="span-label"><strong>License:</strong></span>
-  <span class="span-value"><%= car.license %></span>
-</p>
+    <p>
+      <span class="span-label"><strong>License number :</strong></span>
+      <span class="span-value"><%= car.license %></span>
+    </p>
 
-<p>
-  <span class="span-label"><strong>Manufacturer:</strong></span>
-  <span class="span-value"><%= car.manufacturer %></span>
-</p>
+    <p>
+      <span class="span-label"><strong>Price: </strong></span>
+      <span>$<%= car.hourly %><span>/hr</span><br/></span>
+    </p>
 
-<p>
-  <span class="span-label"><strong>Model:</strong></span>
-  <span class="span-value"><%= car.model %></span>
-</p>
+    <p>
+      <span class="span-label"><strong>Style:</strong></span>
+      <span class="span-value"><%= car.style %></span>
+    </p>
 
-<p>
-  <span class="span-label"><strong>Hourly:</strong></span>
-  <span class="span-value"><%= car.hourly %></span>
-</p>
+    <p>
+      <span class="span-label"><strong>Location:</strong></span>
+      <span class="span-value"><%= car.location %></span>
+    </p>
 
-<p>
-  <span class="span-label"><strong>Style:</strong></span>
-  <span class="span-value"><%= car.style %></span>
-</p>
-
-<p>
-  <span class="span-label"><strong>Location:</strong></span>
-  <span class="span-value"><%= car.location %></span>
-</p>
-
-<p>
-  <span class="span-label"><strong>Availability:</strong></span>
-  <span class="span-value"><%= car.availability %></span>
-</p>
-
-<% if @user_context %>
-    <% unless car.availability == "Checked_Out" %>
-        <div class="form-div form-inside-div">
-          <%= render 'templates/car_checkout.html.erb', car: car, checkout: @checkout %>
-        </div>
+    <% if car.availability == 'Available' %>
+        <div class="alert alert-success" role="alert">Car is available</div>
+  <% elsif car.availability == 'Checked_Out'  %>
+        <div class="alert alert-danger" role="alert"><%= 'Car has been checked out' %></div>
+    <% else %>
+        <div class="alert alert-danger" role="alert"><%= 'Car has been booked' %></div>
     <% end %>
-<% end %>
+
+    <% if @user_context %>
+        <%
+          # check who has booked the car
+          checkout_true = CarCheckout.exists?(license: car.license, checkout_by: @user_context['email_id'], status: 'booked' )
+
+          checkout_by_user = false
+          checkout_details = nil
+          if checkout_true
+            checkout_by_user = true
+          end
+
+        %>
+        <% if checkout_by_user %>
+            <div class="alert alert-success">
+              <% checkout_details = CarCheckout.where(license: car.license, checkout_by: @user_context['email_id'], status: 'booked' ).take %>
+              <% if checkout_details.time_from < DateTime.now &&
+                  checkout_details.time_from + 30.minutes > DateTime.now %>
+                <p>You can checkout now</p>
+                  <%= link_to 'Checkout now', checkout_cars_path({car: car.license, motive: 'instant'}),  class: "btn btn-primary", role: "button"  %>
+              <% elsif checkout_details.time_from > DateTime.now %>
+                  <p>You have booked this car from <%= checkout_details.time_from %></p>
+                  <p>Once it reaches this time, you will be able to checkout.</p>
+              <% end %>
+            </div>
+        <% elsif car.availability == 'Available' %>
+            <p>You can directly check out a car by specifying duration of rent (default is 1hr), leaving the timefield empty.</p>
+            <p>If you want to reserve a car for future time, please provide a time below within next 7 days timespan to be considered.</p>
+            <div class="form-div form-inside-div">
+              <%= render 'templates/car_checkout.html.erb', car: car, checkout: @checkout %>
+            </div>
+        <% elsif car.availability == 'Checked_Out' %>
+            <%= link_to 'Return Car', {:controller => "cars", :action => "return_car", :car => car.license },  class: "btn btn-primary", role: "button"  %>
+        <% end %>
+    <% else %>
+        <%= link_to 'Edit', edit_car_path(car),  class: "btn btn-primary", role: "button" %>
+        <% if car.availability == 'Available' %>
+            <%= link_to 'Delete', car, method: :delete, data: { confirm: 'Are you sure?' },  class: "btn btn-primary", role: "button" %>
+        <% end %>
+    <% end %>
+  </div>
+</div>

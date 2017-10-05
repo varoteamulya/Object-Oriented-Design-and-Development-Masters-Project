@@ -1,75 +1,66 @@
 <% if cars.length == 0 %>
     <div class="message-div">There is no car in the system</div>
 <% else %>
-  <div class="table-div">
-    <table>
-      <thead>
-      <tr>
-        <th>License Number</th>
-        <th>Manufacturer</th>
-        <th>Model Number</th>
-        <th>Hourly Rental Rate</th>
-        <th>Style</th>
-        <th>Location</th>
-        <th>Status</th>
-        <th colspan="3">Options</th>
-      </tr>
-      </thead>
+      <div class="row">
 
-      <tbody>
       <% cars.each do |car| %>
-          <tr>
-            <td><%= link_to car.license, car %></td>
-            <td><%= car.manufacturer %></td>
-            <td><%= car.model %></td>
-            <td><%= car.hourly %></td>
-            <td><%= car.style %></td>
-            <td><%= car.location %></td>
-            <td><%= car.availability %></td>
+          <div class="col-sm-6 col-md-4">
+              <div class="thumbnail">
+                <img src="<%= asset_path( 'car.jpg' ) %>" alt="Car image" style="width: 100%;">
+                <div class="caption">
+                  <h3><%= car.manufacturer %>
+                    <small><%= car.model %> (<%= car.style %>)</small></h3>
+                  <p>
+                    <%= link_to car.license, car %><br/>
+                    <%= car.location %><br/>
+                    <span>Price: $<%= car.hourly %><span>/hr</span><br/></span>
+                  </p>
 
-            <% if car.availability == 'Booked' %>
-                <td><%= 'Car is booked' %></td>
-                <% if @user_context %>
-                  <% checkout_details = CarCheckout.exists?(license: car.license, checkout_by: user['email_id'], status: 'booked' ) %>
-                  <% if checkout_details %>
-                      <td><%= link_to 'Checkout', car %></td>
-                  <% else %>
-                      <td><%= link_to 'Register for email upon availability', {:controller => "cars", :action => "register_for_email", :car => car.license } %></td>
-                  <% end %>
-                <% end %>
-            <% elsif car.availability == 'Checked_Out' %>
-                <% if @user_context %>
-                  <% checkout_details = CarCheckout.exists?(license: car.license, checkout_by: user['email_id'], status: 'checked out' ) %>
-
-                  <td><%= 'Car is Checked Out' %></td>
-                  <td>
-                    <%= link_to 'Return', {:controller => "cars", :action => "return_car", :car => car.license } %><br/>
-                    <% unless checkout_details %>
-                      <%= link_to 'Register for email upon availability', {:controller => "cars", :action => "register_for_email", :car => car.license } %>
+                  <p>
+                    <% if car.availability == 'Booked' %>
+                      <div class="alert alert-danger" role="alert"><%= 'Car has been booked' %></div>
+                        <% if @user_context %>
+                            <% checkout_details = CarCheckout.exists?(license: car.license, checkout_by: @user_context['email_id'], status: 'booked' ) %>
+                            <% if checkout_details %>
+                                <%= link_to 'Checkout', car,  class: "btn btn-primary", role: "button"  %></td>
+                                <%= link_to 'Cancel booking', {:controller => "cars", :action => "cancel_booking", :car => car.license },  class: "btn btn-primary", role: "button"  %>
+                            <% else %>
+                                <%= link_to 'Register for email upon availability', {:controller => "cars", :action => "register_for_email", :car => car.license },  class: "btn btn-primary", role: "button" %>
+                            <% end %>
+                        <% end %>
+                    <% elsif car.availability == 'Checked_Out' %>
+                          <% if @user_context %>
+                            <% checkout_details = CarCheckout.exists?(license: car.license, checkout_by: @user_context['email_id'], status: 'checked out' ) %>
+                            <div class="alert alert-danger" role="alert"><%= 'Car is Checked Out' %></div>
+                            <%= link_to 'Return', {:controller => "cars", :action => "return_car", :car => car.license },  class: "btn btn-primary", role: "button" %><br/>
+                            <% unless checkout_details %>
+                                <%= link_to 'Register for email upon availability', {:controller => "cars", :action => "register_for_email", :car => car.license },  class: "btn btn-primary", role: "button" %>
+                            <% end %>
+                          <% end %>
+                    <% else %>
+                      <div class="alert alert-success" role="alert">Car is available</div>
+                          <% if @user_context && @user_context['u_type'] == 3 %>
+                            <%= link_to 'Checkout', car,  class: "btn btn-primary", role: "button"  %></td>
+                          <%= link_to 'Reserve', car,  class: "btn btn-primary", role: "button"  %></td>
+                          <% end %>
+                        <% end %>
+                    <% if @user_context %>
+                        <% unless @user_context['u_type'] == 3 %>
+                          <%= link_to 'Edit', edit_car_path(car),  class: "btn btn-primary", role: "button" %>
+                          <% if car.availability == 'Available'%>
+                              <%= link_to 'Delete', car, method: :delete, data: { confirm: 'Are you sure?' },  class: "btn btn-primary", role: "button" %>
+                          <% end %>
+                        <% end %>
+                    <% else %>
+                      <%= link_to 'Edit', edit_car_path(car),  class: "btn btn-primary", role: "button" %>
+                      <% if car.availability == 'Available' %>
+                          <%= link_to 'Delete', car, method: :delete, data: { confirm: 'Are you sure?' },  class: "btn btn-primary", role: "button" %>
+                      <% end %>
                     <% end %>
-                  </td>
-                <% end %>
-            <% else %>
-                <% if @user_context && @user_context['u_type'] == 3 %>
-                  <td><%= link_to 'Book', {:controller => "cars", :action => "book_car", :car => car.license } %></td>
-                <% end %>
-            <% end %>
-            <% if @user_context %>
-                <% unless @user_context['u_type'] == 3 %>
-                  <% if car.availability == 'Availability'%>
-                    <td><%= link_to 'Edit', edit_car_path(car) %></td>
-                    <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-                  <% end %>
-                <% end %>
-            <% else %>
-                <% if car.availability == 'Available' %>
-                <td><%= link_to 'Edit', edit_car_path(car) %></td>
-                <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-                <% end %>
-            <% end %>
-          </tr>
+                  </p>
+                </div>
+              </div>
+            </div>
       <% end %>
-      </tbody>
-    </table>
   </div>
 <% end %>

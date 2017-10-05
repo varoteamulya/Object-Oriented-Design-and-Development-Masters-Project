@@ -1,17 +1,17 @@
-<p id="notice"><%= notice %></p>
-<div>
-  <h2>
-    Welcome <%= @user['name'] %>
-  </h2>
-
-  <span class="edit-profile"><%= link_to 'Edit profile', edit_profile_path %></span>
-
-  <span class="logout"><%= link_to 'Logout', logout_path %></span>
-
-  <%= form_tag(cars_path, :method => "get", id: "search-form") do %>
-      <%= text_field_tag :search, params[:search], placeholder: "Search Cars" %>
-      <%= submit_tag "Search" %>
-  <% end %>
+<% if notice %>
+  <div class="alert alert-danger" id="notice"><%= notice %></div>
+<% end %>
+<div style="margin-top: 15px;">
+  <div class="row">
+    <div class="col-lg-6 search-bar">
+      <%= form_tag(cars_path, :method => "get", id: "search-form") do %>
+        <div class="input-group">
+          <%= text_field_tag :search, params[:search], placeholder: "Enter keyword here!", class: "form-control" %>
+          <span class="input-group-btn"><%= submit_tag "Search Cars", class: 'btn btn-lg btn-primary btn-block button' %></span>
+        </div>
+      <% end %>
+    </div>
+  </div>
 
   <% if @user['u_type'] == 1 %>
       <%= render 'superadmin.html.erb', cars: @cars, user: @user%>
@@ -22,7 +22,7 @@
   <% end %>
 
   <% if @user['u_type'] == 3 %>
-    <%= render 'customer.html.erb', cars: @cars, user: @user, reservations: @reservations%>
+    <%= render 'customer.html.erb', cars: @cars, user: @user, reservations: @reservations, isUser: 'yes'%>
   <% end %>
 
 </div>

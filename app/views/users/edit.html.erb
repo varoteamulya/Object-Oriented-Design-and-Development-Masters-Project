@@ -1,7 +1,5 @@
 <div class="form-div">
-  <div class="div-header">
-    <h1>Editing User</h1>
-    <%= link_to 'Cancel', users_path %>
+    <%= link_to 'Cancel', users_path,  class: "btn btn-primary", role: "button", style: 'margin-top: 15px; margin-bottom: 25px;'  %>
   </div>
-  <%= render 'templates/edit_profile.html.erb', user_edit: @user_edit %>
+  <%= render 'templates/edit_profile.html.erb', user_edit: @user_edit, password_priviledge: 'no' %>
 </div>

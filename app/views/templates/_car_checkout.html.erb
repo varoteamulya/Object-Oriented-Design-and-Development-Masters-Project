@@ -1,37 +1,23 @@
 <%= form_with(model: checkout, local: true) do |form| %>
 
     <% if checkout.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(checkout.errors.count, "error") %> prohibited this checkout:</h2>
-
-          <ul>
-            <% checkout.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-            <% end %>
-          </ul>
-        </div>
+        <% checkout.errors.full_messages.each do |message| %>
+            <div class="alert alert-danger" role="alert">
+              <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              <span class="sr-only">Error:</span>
+              <%= message %>
+            </div>
+        <% end %>
     <% end %>
-    <div class="field">
-      <%= form.label :time_from %>
-      <%= form.datetime_local_field :time_from, id: :time_from, min: DateTime.now, max: DateTime.now + 7 %>
-    </div>
 
-    <div class="field">
-      <%= form.label :time_to %>
-      <%= form.datetime_local_field :time_to, id: :time_to, min: DateTime.now, max: DateTime.now + 7 %>
-    </div>
+    <%= form.datetime_field :time_from, id: :time_from, min: DateTime.now, max: DateTime.now + 6.days, placeholder: 'Time from', class: 'form-control', style: "margin-bottom: 15px" %>
 
-    <div class="field" style="display:none;">
-      <%= form.label :checkout_by %>
-      <%= form.text_field :checkout_by, id: :checkout_by%>
-    </div>
+    <%= form.number_field :duration, id: :duration, value: 1, min: 1, max: 10, placeholder: 'Number of hours', class: 'form-control', style: "margin-bottom: 15px" %>
 
-    <div class="field" style="display:none;">
-      <%= form.label :license %>
-      <%= form.text_field :license, id: :license %>
-    </div>
+    <%= form.text_field :checkout_by, id: :checkout_by, placeholder: 'Email Address', class: 'form-control', style: "display:none;" %>
 
-    <div class="actions">
-      <%= form.submit 'Checkout' %>
-    </div>
+    <%= form.text_field :license, id: :license, placeholder: 'Email Address', class: 'form-control', style: "display:none;" %>
+
+    <%= form.submit 'Checkout Now', class: 'btn btn-primary button' %>
+    <%= form.submit 'Reserve', name: 'reserve', class: 'btn btn-primary button' %>
 <% end %>

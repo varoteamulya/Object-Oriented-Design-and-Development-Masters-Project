@@ -20,6 +20,14 @@ class CarStatusResetJob < ApplicationJob
           availability_request.destroy
         end
       end
+    elsif car.availability == 'Checked_Out'
+      car.availability = 'Available'
+      car.save
+
+      car_checkout.status = 'returned'
+      car_checkout.save
+      UserNotifierMailer.create_send_car_return_failure_email(car_checkout.checkout_by).deliver_now
+
     end
   end
 

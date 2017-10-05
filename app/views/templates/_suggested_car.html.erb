@@ -1,9 +1,11 @@
 
+<%= link_to 'Back', dashboard_path,  class: "btn btn-primary", role: "button", style: 'margin-top: 15px; margin-bottom: 10px;' %>
+
 <% if @suggestion.length == 0 %>
-    <div class="message-div">There is no car in the system</div>
+    <div class="alert alert-warning" role="alert">There is no car in the system</div>
 <% else %>
     <div class="table-div">
-      <table>
+      <table class="table">
         <thead>
         <tr>
 
@@ -26,7 +28,5 @@
       </table>
     </div>
 <% end %>
-<%= link_to 'Back', dashboard_path %>
-
 
 

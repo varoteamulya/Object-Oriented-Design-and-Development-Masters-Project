@@ -1,9 +1,6 @@
-<p id="notice"><%= notice %></p>
+<% if notice %>
+    <div class="alert alert-danger" id="notice"><%= notice %></div>
+<% end %>
 
-<div class="form-div">
-  <div class="div-header">
-    <h1>Login</h1>
-    <%= link_to 'Back', home_path %>
-  </div>
-  <%= render 'templates/login_form.html.erb', login: @login %>
-</div>
+<%= link_to 'Back', home_path %>
+<%= render 'templates/login_form.html.erb', login: @login %>

@@ -1,5 +1,5 @@
 <div class="table-div">
-  <table>
+  <table class="table table-hover">
     <thead>
     <tr>
       <th>License Number</th>
@@ -14,10 +14,12 @@
       <% elsif car_status == 'checked out' %>
           <th>Checked out on</th>
           <th>Expected return</th>
+          <th>Expected Charge</th>
           <th>Options</th>
       <% elsif car_status == 'returned' %>
           <th>Checked out on</th>
           <th>Returned on</th>
+          <th>Total Charge</th>
       <% end %>
     </tr>
     </thead>
@@ -38,9 +40,11 @@
                 <td><%= link_to 'Cancel booking', {:controller => "cars", :action => "cancel_booking", :car => car.license } %></td>
             <% elsif car.status == 'checked out' %>
                 <td><%= car.time_to %></td>
+                  <td>$<%= car.duration.to_i * car.hourly.to_i %> for <%= car.duration.to_i%> hours</td>
                 <td><%= link_to 'Return', {:controller => "cars", :action => "return_car", :car => car.license } %><td>
             <% elsif car.status == 'returned' %>
                 <td><%= car.updated_at %></td>
+                  <td>$<%= car.duration.to_i * car.hourly.to_i %> for <%= car.duration.to_i%> hours</td>
             <% end %>
           <% end %>
         </tr>

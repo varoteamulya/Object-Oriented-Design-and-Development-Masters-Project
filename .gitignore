@@ -23,3 +23,7 @@
 .byebug_history
 
 .idea
+
+vendor/
+/vendor/
+/vendor/*

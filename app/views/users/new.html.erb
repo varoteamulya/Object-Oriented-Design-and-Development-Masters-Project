@@ -1,7 +1,2 @@
-<div class="form-div">
-  <div class="div-header">
-    <h1>New User</h1>
-    <%= link_to 'Back', dashboard_path %>
-  </div>
-  <%= render 'templates/sign_up_form.html.erb', sign_up: @sign_up, action: @action %>
-</div>
+<%= link_to 'Home', dashboard_path,  class: "btn btn-primary", role: "button", style: 'margin-top: 15px; margin-bottom: 10px;'  %>
+<%= render 'templates/sign_up_form.html.erb', sign_up: @sign_up, action: @action %>

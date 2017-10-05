@@ -1,20 +1,15 @@
-<%= form_with(model: user_edit, local: true) do |form| %>
-    <div class="field">
-      <span>Email Id : </span>
-      <span><%= user_edit.email_id %></span>
-    </div>
+<%= form_with(model: user_edit, local: true, html: {class: "form-sign"}) do |form| %>
 
-    <div class="field">
-      <%= form.label :name %>
-      <%= form.text_field :name, id: :user_name %>
-    </div>
-
-    <div class="field">
-      <%= form.label :password %>
-      <%= form.text_field :password, id: :password %>
-    </div>
-
-    <div class="actions">
-      <%= form.submit %>
-    </div>
+    <h5 class="form-sign-header">
+      Edit profile !
+      <p><small>You cannot edit your email id.</small></p>
+    </h5>
+    <div class="form-control"><%= user_edit.email_id %></div>
+    <%= form.text_field :name, id: :user_name, placeholder: 'Edit Full Name', class: 'form-control' %>
+    <% if password_priviledge == 'yes' %>
+      <%= form.password_field :password, id: :password, placeholder: 'Password', class: 'form-control', value: user_edit.password %>
+    <% else %>
+        <%= form.password_field :password, id: :password, placeholder: 'Password', class: 'form-control', value: user_edit.password, style: 'display: none;' %>
+    <% end %>
+    <%= form.submit 'Confirm changes', class: 'btn btn-lg btn-primary btn-block button'%>
 <% end %>

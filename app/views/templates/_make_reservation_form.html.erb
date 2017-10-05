@@ -1,10 +1,7 @@
-<%= form_with(local: true) do |form| %>
-    <div class="field">
-      <%= form.label :email_id %>
-      <%= form.select :email_id, options_for_select(@users.map {|user| [ user['email_id'], user['email_id'] ] }) %>
-    </div>
+<%= form_with(local: true, html: {class: "form-sign"}) do |form| %>
 
-    <div class="actions">
-      <%= form.submit 'Select' %>
-    </div>
+    <h2 class="form-sign-header">Select user</h2>
+    <%= form.select :email_id, options_for_select(@users.map {|user| [ user['email_id'], user['email_id'] ] }), {}, {class: 'form-control'} %>
+    <%= form.submit 'Select user', class: 'btn btn-lg btn-primary btn-block button'  %>
+
 <% end %>
